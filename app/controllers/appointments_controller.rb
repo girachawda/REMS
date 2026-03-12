@@ -9,12 +9,12 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
     @unit = Unit.find(params[:unit_id]) if params[:unit_id]
     @availabilities = if @unit
-                       Availability.where(property: @unit.property)
-                                 .where("start_time >= ?", Time.now)
-                                 .order(:start_time)
-                      else
+                        Availability.where(property: @unit.property)
+                                    .where("start_time >= ?", Time.now)
+                                    .order(:start_time)
+    else
                         []
-                      end                     
+    end
   end
 
   def create

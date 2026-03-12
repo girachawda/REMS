@@ -16,7 +16,7 @@ class Appointment < ApplicationRecord
 
     existing = Appointment.where(availability_id: availability_id)
                          .where.not(id: id)
-                         .where(status: [:pending, :confirmed])
+                         .where(status: [ :pending, :confirmed ])
                          .where(scheduled_at: scheduled_at)
 
     if existing.exists?

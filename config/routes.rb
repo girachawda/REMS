@@ -5,15 +5,15 @@ Rails.application.routes.draw do
   delete "logout", to: "sessions#destroy"
 
   # Portfolio/Properties
-  resources :properties, only: [:index, :show] do
-    resources :units, only: [:show]
+  resources :properties, only: [ :index, :show ] do
+    resources :units, only: [ :show ]
   end
 
   # Agent availability
-  resources :availabilities, only: [:index, :new, :create]
+  resources :availabilities, only: [ :index, :new, :create ]
 
   # Appointments
-  resources :appointments, only: [:index, :new, :create]
+  resources :appointments, only: [ :index, :new, :create ]
 
   # Root path
   root "properties#index"
