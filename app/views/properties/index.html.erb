@@ -1,0 +1,43 @@
+<h1>Property Portfolio</h1>
+
+<%= form_with url: properties_path, method: :get do |form| %>
+  <div>
+    <%= form.label :location, "Search by Location" %>
+    <%= form.text_field :location, value: params[:location] %>
+  </div>
+
+  <div>
+    <%= form.label :min_size, "Min Size (sq ft)" %>
+    <%= form.number_field :min_size, value: params[:min_size] %>
+  </div>
+
+  <div>
+    <%= form.label :max_rate, "Max Rental Rate" %>
+    <%= form.number_field :max_rate, value: params[:max_rate] %>
+  </div>
+
+  <div>
+    <%= form.label :classification %>
+    <%= form.select :classification, Unit.classifications.keys.map { |k| [k.humanize, k] }, { include_blank: "All" }, { selected: params[:classification] } %>
+  </div>
+
+  <div>
+    <%= form.label :status %>
+    <%= form.select :status, Unit.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: "All" }, { selected: params[:status] } %>
+  </div>
+
+  <div>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
+
+<h2>Results (<%= @properties.count %>)</h2>
+
+<% @properties.each do |property| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+    <h3><%= link_to property.name, property_path(property) %></h3>
+    <p><strong>Address:</strong> <%= property.address %></p>
+    <p><strong>Description:</strong> <%= property.description %></p>
+    <p><strong>Available Units:</strong> <%= property.units.available.count %> / <%= property.units.count %></p>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  unit: one
+  availability: one
+  scheduled_at: 2026-03-10 20:48:08
+  status: 1
+
+two:
+  user: two
+  unit: two
+  availability: two
+  scheduled_at: 2026-03-10 20:48:08
+  status: 1

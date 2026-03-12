@@ -1,0 +1,21 @@
+<h1><%= @property.name %></h1>
+
+<p><strong>Address:</strong> <%= @property.address %></p>
+<p><strong>Description:</strong> <%= @property.description %></p>
+
+<h2>Units</h2>
+
+<% @units.each do |unit| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+    <h3>Unit <%= unit.unit_number %></h3>
+    <p><strong>Size:</strong> <%= unit.size %> sq ft</p>
+    <p><strong>Rental Rate:</strong> $<%= unit.rental_rate %>/month</p>
+    <p><strong>Classification:</strong> <%= unit.classification.humanize %></p>
+    <p><strong>Status:</strong> <%= unit.status.humanize %></p>
+    <% if unit.available? %>
+      <%= link_to "View Details & Schedule", property_unit_path(@property, unit) %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= link_to "Back to Properties", properties_path %>

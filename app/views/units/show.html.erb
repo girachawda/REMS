@@ -1,0 +1,33 @@
+<h1><%= @property.name %> - Unit <%= @unit.unit_number %></h1>
+
+<div style="border: 1px solid #ccc; padding: 15px; margin: 15px 0;">
+  <h2>Unit Details</h2>
+  <p><strong>Size:</strong> <%= @unit.size %> sq ft</p>
+  <p><strong>Rental Rate:</strong> $<%= @unit.rental_rate %>/month</p>
+  <p><strong>Classification:</strong> <%= @unit.classification.humanize %></p>
+  <p><strong>Status:</strong> <%= @unit.status.humanize %></p>
+</div>
+
+<% if logged_in? && @unit.available? %>
+  <h2>Schedule a Viewing</h2>
+  <%= link_to "Book an Appointment", new_appointment_path(unit_id: @unit.id) %>
+
+  <h3>Agent Availability</h3>
+  <% if @availabilities.any? %>
+    <ul>
+      <% @availabilities.each do |availability| %>
+        <li>
+          <%= availability.user.name %> -
+          <%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %> to
+          <%= availability.end_time.strftime("%I:%M %p") %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No agent availability at this time.</p>
+  <% end %>
+<% elsif !logged_in? %>
+  <p><%= link_to "Login", login_path %> to schedule a viewing</p>
+<% end %>
+
+<%= link_to "Back to Property", property_path(@property) %>
