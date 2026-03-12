@@ -3,7 +3,7 @@ class Appointment < ApplicationRecord
   belongs_to :unit
   belongs_to :availability
 
-  enum status: { pending: 0, confirmed: 1, cancelled: 2, completed: 3 }
+  enum :status, { pending: 0, confirmed: 1, cancelled: 2, completed: 3 }
 
   validates :scheduled_at, presence: true
   validates :status, presence: true

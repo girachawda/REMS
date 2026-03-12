@@ -173,9 +173,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (6.0.2)
-      drb (~> 2.0)
-      prism (~> 1.5)
+    minitest (5.27.0)
     msgpack (1.8.0)
     net-imap (0.6.3)
       date
@@ -384,6 +382,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder
   kamal
+  minitest (~> 5.25)
   propshaft
   puma (>= 5.0)
   rails (~> 7.2.0)

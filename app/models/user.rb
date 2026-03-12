@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
 
-  enum role: { tenant: 0, leasing_agent: 1, administrative_staff: 2 }
+  enum :role, { tenant: 0, leasing_agent: 1, administrative_staff: 2 }
 
   has_many :availabilities, dependent: :destroy
   has_many :appointments, dependent: :destroy
