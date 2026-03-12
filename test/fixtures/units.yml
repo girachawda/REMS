@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  property: one
+  unit_number: "101"
+  size: 1000.0
+  rental_rate: 2000.0
+  classification: 0
+  status: 0
+
+two:
+  property: two
+  unit_number: "201"
+  size: 1500.0
+  rental_rate: 2500.0
+  classification: 1
+  status: 0

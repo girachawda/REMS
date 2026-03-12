@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  unit: one
+  availability: one
+  scheduled_at: <%= 1.day.from_now + 1.hour %>
+  status: 0
+
+two:
+  user: one
+  unit: two
+  availability: two
+  scheduled_at: <%= 2.days.from_now + 1.hour %>
+  status: 0

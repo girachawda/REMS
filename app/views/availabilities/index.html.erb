@@ -1,0 +1,24 @@
+<h1>My Availability</h1>
+
+<%= link_to "Add New Availability", new_availability_path %>
+
+<h2>Upcoming Availability</h2>
+
+<% if @availabilities.any? %>
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Property</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+    <% @availabilities.each do |availability| %>
+      <tr>
+        <td><%= availability.property.name %></td>
+        <td><%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %></td>
+        <td><%= availability.end_time.strftime("%B %d, %Y %I:%M %p") %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No availability set yet.</p>
+<% end %>

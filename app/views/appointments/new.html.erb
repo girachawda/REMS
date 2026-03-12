@@ -1,0 +1,45 @@
+<h1>Schedule Appointment</h1>
+
+<% if @unit %>
+  <h2>Unit <%= @unit.unit_number %> at <%= @unit.property.name %></h2>
+  <p><strong>Size:</strong> <%= @unit.size %> sq ft | <strong>Rent:</strong> $<%= @unit.rental_rate %>/month</p>
+<% end %>
+
+<%= form_with model: @appointment, url: appointments_path do |form| %>
+  <% if @appointment.errors.any? %>
+    <div style="color: red;">
+      <h3><%= pluralize(@appointment.errors.count, "error") %> prevented this appointment from being saved:</h3>
+      <ul>
+        <% @appointment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :unit_id, value: @unit&.id %>
+
+  <div>
+    <%= form.label :availability_id, "Select Agent Availability" %>
+    <% if @availabilities.any? %>
+      <%= form.collection_select :availability_id, @availabilities, :id,
+          lambda { |a| "#{a.user.name} - #{a.start_time.strftime('%B %d, %Y %I:%M %p')} to #{a.end_time.strftime('%I:%M %p')}" },
+          { prompt: "Select an availability slot" } %>
+    <% else %>
+      <p>No availability slots found for this property.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :scheduled_at, "Preferred Time" %>
+    <%= form.datetime_field :scheduled_at, required: true %>
+  </div>
+
+  <% if @availabilities.any? %>
+    <div>
+      <%= form.submit "Schedule Appointment" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= link_to "Back", @unit ? property_unit_path(@unit.property, @unit) : properties_path %>

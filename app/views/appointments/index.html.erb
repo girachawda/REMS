@@ -1,0 +1,26 @@
+<h1>My Appointments</h1>
+
+<% if @appointments.any? %>
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Unit</th>
+      <th>Property</th>
+      <th>Scheduled Time</th>
+      <th>Agent</th>
+      <th>Status</th>
+    </tr>
+    <% @appointments.each do |appointment| %>
+      <tr>
+        <td>Unit <%= appointment.unit.unit_number %></td>
+        <td><%= appointment.unit.property.name %></td>
+        <td><%= appointment.scheduled_at.strftime("%B %d, %Y %I:%M %p") %></td>
+        <td><%= appointment.availability.user.name %></td>
+        <td><%= appointment.status.humanize %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No appointments scheduled yet.</p>
+<% end %>
+
+<%= link_to "Browse Properties", properties_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Test Plaza
+  address: 123 Test St
+  description: Test property description
+
+two:
+  name: Second Property
+  address: 456 Main Ave
+  description: Another test property
