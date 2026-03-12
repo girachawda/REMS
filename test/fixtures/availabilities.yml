@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  user: two
   property: one
-  start_time: 2026-03-10 20:48:01
-  end_time: 2026-03-10 20:48:01
+  start_time: <%= 1.day.from_now %>
+  end_time: <%= 1.day.from_now + 2.hours %>
 
 two:
   user: two
   property: two
-  start_time: 2026-03-10 20:48:01
-  end_time: 2026-03-10 20:48:01
+  start_time: <%= 2.days.from_now %>
+  end_time: <%= 2.days.from_now + 3.hours %>

@@ -2,12 +2,13 @@ require "test_helper"
 
 class PropertiesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get properties_index_url
+    get properties_path
     assert_response :success
   end
 
   test "should get show" do
-    get properties_show_url
+    property = properties(:one)
+    get property_path(property)
     assert_response :success
   end
 end
