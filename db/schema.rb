@@ -10,20 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_14_181337) do
-  create_table "applications", force: :cascade do |t|
-    t.date "start_date"
-    t.date "end_date"
-    t.integer "duration"
-    t.string "status"
-    t.integer "user_id", null: false
-    t.integer "unit_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["unit_id"], name: "index_applications_on_unit_id"
-    t.index ["user_id"], name: "index_applications_on_user_id"
-  end
-
+ActiveRecord::Schema[7.2].define(version: 2026_03_14_185713) do
   create_table "appointments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "unit_id", null: false
@@ -102,6 +89,19 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_14_181337) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rental_applications", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "duration"
+    t.string "status"
+    t.integer "user_id", null: false
+    t.integer "unit_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_id"], name: "index_rental_applications_on_unit_id"
+    t.index ["user_id"], name: "index_rental_applications_on_user_id"
+  end
+
   create_table "units", force: :cascade do |t|
     t.integer "property_id", null: false
     t.string "unit_number"
@@ -133,8 +133,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_14_181337) do
     t.index ["lease_id"], name: "index_utilities_on_lease_id"
   end
 
-  add_foreign_key "applications", "units"
-  add_foreign_key "applications", "users"
   add_foreign_key "appointments", "availabilities"
   add_foreign_key "appointments", "units"
   add_foreign_key "appointments", "users"
@@ -146,6 +144,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_14_181337) do
   add_foreign_key "maintenance_requests", "units"
   add_foreign_key "maintenance_requests", "users"
   add_foreign_key "payments", "invoices"
+  add_foreign_key "rental_applications", "units"
+  add_foreign_key "rental_applications", "users"
   add_foreign_key "units", "properties"
   add_foreign_key "utilities", "leases"
 end
