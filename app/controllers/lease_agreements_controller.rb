@@ -33,6 +33,6 @@ class LeaseAgreementsController < ApplicationController
   # activate
   def update
     lease = Lease.find(params[:id])
-    lease.activate!
+    lease.activate
   end
 end
