@@ -1,8 +1,14 @@
 class InvoicesController < ApplicationController
-  def list_tenant_invoices
+  # list tenant invoices
+  def index
   end
 
-  def generate_invoice
+  # list specific invoice
+  def show
+  end
+
+  # generate invoice
+  def create
   end
 
   def record_payment

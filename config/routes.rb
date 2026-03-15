@@ -15,6 +15,32 @@ Rails.application.routes.draw do
   # Appointments
   resources :appointments, only: [ :index, :new, :create ]
 
+  # Maintenance requests
+  resources :maintenance_requests, only: [ :index, :new, :create] do
+    member do
+      patch :mark_tenant_caused
+      patch :close
+    end
+  end
+
+  # Invoices
+  resources :invoices, only: [ :index, :show, :create] do
+    member do
+      patch :record_payment
+      patch :mark_overdue
+    end
+  end
+  
+
+  # Lease agreements
+  resources :lease_agreements, only: [ :index, :new, :create] do
+    member do
+      patch :approve
+      patch :reject
+      post :generate
+    end
+  end
+
   # Root path
   root "properties#index"
 

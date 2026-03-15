@@ -1,16 +1,25 @@
 class MaintenanceRequestsController < ApplicationController
-  def submit_rquest
+  # list queue - this will auto prioritize
+  def index
   end
 
-  def list_queue
+  # display form for new request
+  def new
   end
 
-  def prioritize_queue
+  # create request
+  def create
   end
 
+  # self explanatory 
   def mark_tenant_caused
   end
 
-  def close_request
+  # ^^^ :)
+  def close
+  end
+
+  private
+  def prioritize_queue
   end
 end
