@@ -31,13 +31,15 @@ Rails.application.routes.draw do
     end
   end
 
+  # lease applications
+  resources :lease_agreements, only: [ :index, :show, :new, :create, :update ]
+
 
   # Lease agreements
-  resources :lease_agreements, only: [ :index, :new, :create ] do
+  resources :lease_applications, only: [ :index, :show, :new, :create ] do
     member do
       patch :approve
       patch :reject
-      post :generate
     end
   end
 
