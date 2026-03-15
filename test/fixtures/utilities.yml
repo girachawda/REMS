@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  electricity_charges: 9.99
+  water_charges: 9.99
+  waste_management_charges: 9.99
+  lease: one
+
+two:
+  electricity_charges: 9.99
+  water_charges: 9.99
+  waste_management_charges: 9.99
+  lease: two

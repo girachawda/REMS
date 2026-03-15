@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  priority: 1
+  is_emergency: false
+  is_routine: false
+  tenant_cause: false
+  unit: one
+  user: one
+
+two:
+  priority: 1
+  is_emergency: false
+  is_routine: false
+  tenant_cause: false
+  unit: two
+  user: two
