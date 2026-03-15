@@ -29,12 +29,12 @@ class LeaseApplicationsController < ApplicationController
   # self explanatory lol
   def approve
     rental_application = RentalApplication.find(params[:id])
-    rental_application.approve!
+    rental_application.approve
   end
 
   # also self explanatory
   def reject
     rental_application = RentalApplication.find(params[:id])
-    rental_application.reject!(params[:rejection_reason])
+    rental_application.reject(params[:rejection_reason])
   end
 end

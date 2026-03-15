@@ -4,11 +4,11 @@ class RentalApplication < ApplicationRecord
 
   scope :pending, -> { where(status: "pending") }
 
-  def approve!
+  def approve
     update!(status: "approved")
   end
 
-  def reject!(reason)
+  def reject(reason)
     update!(status: "rejected", rejection_reason: reason)
   end
 end

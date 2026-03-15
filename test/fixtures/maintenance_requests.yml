@@ -4,7 +4,8 @@ one:
   priority: 1
   is_emergency: false
   is_routine: false
-  tenant_cause: false
+  maintenance_cost: 100.20
+  tenant_caused: false
   unit: one
   user: one
 
@@ -12,6 +13,7 @@ two:
   priority: 1
   is_emergency: false
   is_routine: false
-  tenant_cause: false
+  maintenance_cost: 10000000
+  tenant_caused: false
   unit: two
   user: two
