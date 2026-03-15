@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_14_185713) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_15_115047) do
   create_table "appointments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "unit_id", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_14_185713) do
     t.integer "unit_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active"
     t.index ["unit_id"], name: "index_leases_on_unit_id"
     t.index ["user_id"], name: "index_leases_on_user_id"
   end
@@ -98,6 +99,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_14_185713) do
     t.integer "unit_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "rejection_reason"
     t.index ["unit_id"], name: "index_rental_applications_on_unit_id"
     t.index ["user_id"], name: "index_rental_applications_on_user_id"
   end
