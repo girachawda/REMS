@@ -24,7 +24,7 @@ class AppointmentsController < ApplicationController
     if @appointment.save
       redirect_to appointments_path, notice: "Appointment scheduled successfully"
     else
-      @unit = @appointment.unit∏
+      @unit = @appointment.unit
       @availabilities = Availability.where(property: @unit&.property)
                                    .where("start_time >= ?", Time.now)
                                    .order(:start_time)

@@ -1,0 +1,2 @@
+module LeaseApplicationsHelper
+end
