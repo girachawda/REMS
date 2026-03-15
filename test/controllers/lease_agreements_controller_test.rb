@@ -1,6 +1,6 @@
 require "test_helper"
 
-class LeaseAgreementControllerTest < ActionDispatch::IntegrationTest
+class LeaseAgreementsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get lease_agreements_path
     assert_response :success

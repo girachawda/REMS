@@ -1,17 +1,17 @@
 class LeaseAgreementsController < ApplicationController
   # all leases (for staff members/admin)
   def index
-    @lease_agreements = LeaseAgreement.all
+    @lease_agreements = Lease.all
   end
 
   # specific lease
   def show
-    @lease_agreement = LeaseAgreement.find(params[:id])
+    @lease_agreement = Lease.find(params[:id])
   end
 
   # for the lease form
   def new
-    @lease_agreement = LeaseAgreement.new
+    @lease_agreement = Lease.new
   end
 
   # this generates the lease agreement
