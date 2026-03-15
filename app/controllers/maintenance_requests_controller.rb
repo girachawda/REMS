@@ -11,7 +11,7 @@ class MaintenanceRequestsController < ApplicationController
   def create
   end
 
-  # self explanatory 
+  # self explanatory
   def mark_tenant_caused
   end
 
