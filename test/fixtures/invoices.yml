@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  account: one
+  lease: one
   total_charge: 9.99
   due_date: 2026-03-14
   status: MyString
-  lease: one
 
 two:
+  account: one
+  lease: one
   total_charge: 9.99
   due_date: 2026-03-14
   status: MyString
-  lease: two
