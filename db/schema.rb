@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_15_160038) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_16_045713) do
+  create_table "accounts", force: :cascade do |t|
+    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
+    t.string "payment_cycle", default: "monthly"
+    t.integer "bank_transfer_number"
+    t.decimal "discount_percent", default: "0.0"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
   create_table "appointments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "unit_id", null: false
@@ -42,6 +53,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_15_160038) do
     t.integer "lease_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "charge_type"
+    t.integer "account_id", null: false
+    t.index ["account_id"], name: "index_invoices_on_account_id"
     t.index ["lease_id"], name: "index_invoices_on_lease_id"
   end
 
@@ -78,10 +92,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_15_160038) do
     t.decimal "amount"
     t.datetime "paid_at"
     t.string "method"
-    t.integer "invoice_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+    t.integer "account_id", null: false
+    t.index ["account_id"], name: "index_payments_on_account_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -137,17 +151,19 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_15_160038) do
     t.index ["lease_id"], name: "index_utilities_on_lease_id"
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "appointments", "availabilities"
   add_foreign_key "appointments", "units"
   add_foreign_key "appointments", "users"
   add_foreign_key "availabilities", "properties"
   add_foreign_key "availabilities", "users"
+  add_foreign_key "invoices", "accounts"
   add_foreign_key "invoices", "leases"
   add_foreign_key "leases", "units"
   add_foreign_key "leases", "users"
   add_foreign_key "maintenance_requests", "units"
   add_foreign_key "maintenance_requests", "users"
-  add_foreign_key "payments", "invoices"
+  add_foreign_key "payments", "accounts"
   add_foreign_key "rental_applications", "units"
   add_foreign_key "rental_applications", "users"
   add_foreign_key "units", "properties"

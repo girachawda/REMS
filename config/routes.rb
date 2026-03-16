@@ -43,6 +43,24 @@ Rails.application.routes.draw do
     end
   end
 
+  # Accounts
+  resources :accounts, only: [ :index, :show, :update ] do
+    member do
+      patch :set_discount
+    end
+  end
+
+  # Payments
+  resources :payments, only: [ :index, :new, :create ]
+
+  # Invoices
+  resources :invoices, only: [ :index, :show, :create ] do
+    member do
+      patch :record_payment
+      patch :mark_overdue
+    end
+  end
+
   # Root path
   root "properties#index"
 

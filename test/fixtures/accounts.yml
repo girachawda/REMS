@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  balance: 9.99
+  payment_cycle: 1
+  bank_transfer_number: 1
+  discount_percent: 9.99
+  user: one
+
+two:
+  balance: 9.99
+  payment_cycle: 1
+  bank_transfer_number: 1
+  discount_percent: 9.99
+  user: two

@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  invoice: one
+  account: one
   amount: 9.99
   paid_at: 2026-03-14 14:00:29
   method: MyString
 
 two:
-  invoice: two
+  account: two
   amount: 9.99
   paid_at: 2026-03-14 14:00:29
   method: MyString
