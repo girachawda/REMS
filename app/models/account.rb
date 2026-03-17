@@ -3,7 +3,7 @@ class Account < ApplicationRecord
   has_many :invoices
   has_many :payments
 
-  validates :payment_cycle, inclusion: { in: %w(monthly quarterly bi-annually annually) }
+  validates :payment_cycle, inclusion: { in: %w[monthly quarterly bi-annually annually] }
 
   def pre_discount_payment_amount(rent)
     if payment_cycle == "monthly"
