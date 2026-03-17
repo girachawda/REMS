@@ -35,7 +35,7 @@ class InvoicesController < ApplicationController
 
   def record_payment
     invoice = current_user.account.invoices.find(params[:id])
-    
+
     if current_user.account.balance <= 0
       invoice.update(status: "paid")
       redirect_to account_path, notice: "Outstanding invoices are paid"
