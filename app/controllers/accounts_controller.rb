@@ -16,14 +16,14 @@ class AccountsController < ApplicationController
   # for payment cycle (show variable rate in front end), and bank transfer info
   def update
     if current_user.account.update(
-      payment_cycle: params[:payment_cycle], 
+      payment_cycle: params[:payment_cycle],
       bank_transfer_number: params[:bank_transfer_number]
       )
         redirect_to account_path(current_user.account), notice: "Preferences updated"
     end
   end
 
-  #only for admins
+  # only for admins
   def set_discount
     if current_user.tenant?
       redirect_to account_path(current_user.account)
