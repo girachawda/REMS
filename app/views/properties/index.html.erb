@@ -1,43 +1,138 @@
-<h1>Property Portfolio</h1>
+<h1 class="mb-4">Property Portfolio</h1>
 
-<%= form_with url: properties_path, method: :get do |form| %>
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+
+    <%= form_with url: properties_path, method: :get, local: true do |form| %>
+
+      <div class="row g-2 align-items-end">
+
+        <div class="col-md-3">
+          <%= form.label :location, "Location", class: "form-label" %>
+          <%= form.text_field :location,
+              value: params[:location],
+              class: "form-control",
+              placeholder: "City or address" %>
+
+          <%= form.select :name,
+            Property.distinct.order(:name).pluck(:name),
+            { include_blank: "All Locations" },
+            { selected: params[:name], class: "form-select" } %>
+        </div>
+
+        <div class="col-md-2">
+          <%= form.label :min_size, "Min Size", class: "form-label" %>
+          <%= form.number_field :min_size,
+              value: params[:min_size],
+              class: "form-control",
+              placeholder: "sq ft" %>
+        </div>
+
+        <div class="col-md-2">
+          <%= form.label :max_rate, "Max Rent", class: "form-label" %>
+          <%= form.number_field :max_rate,
+              value: params[:max_rate],
+              class: "form-control",
+              placeholder: "$" %>
+        </div>
+
+        <div class="col-md-2">
+          <%= form.label :classification, class: "form-label" %>
+          <%= form.select :classification,
+              Unit.classifications.keys.map { |k| [k.humanize, k] },
+              { include_blank: "All" },
+              { selected: params[:classification], class: "form-select" } %>
+        </div>
+
+        <div class="col-md-2">
+          <%= form.label :status, class: "form-label" %>
+          <%= form.select :status,
+              Unit.statuses.keys.map { |k| [k.humanize, k] },
+              { include_blank: "All" },
+              { selected: params[:status], class: "form-select" } %>
+        </div>
+
+        <div class="col-md-1 d-grid">
+          <%= form.submit "Search", class: "btn btn-primary" %>
+        </div>
+
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
   <div>
-    <%= form.label :location, "Search by Location" %>
-    <%= form.text_field :location, value: params[:location] %>
+    <%= link_to "Clear Filters",
+        properties_path,
+        class: "btn btn-outline-secondary btn-sm" %>
   </div>
 
-  <div>
-    <%= form.label :min_size, "Min Size (sq ft)" %>
-    <%= form.number_field :min_size, value: params[:min_size] %>
-  </div>
+</div>
 
-  <div>
-    <%= form.label :max_rate, "Max Rental Rate" %>
-    <%= form.number_field :max_rate, value: params[:max_rate] %>
-  </div>
 
-  <div>
-    <%= form.label :classification %>
-    <%= form.select :classification, Unit.classifications.keys.map { |k| [k.humanize, k] }, { include_blank: "All" }, { selected: params[:classification] } %>
-  </div>
 
-  <div>
-    <%= form.label :status %>
-    <%= form.select :status, Unit.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: "All" }, { selected: params[:status] } %>
-  </div>
+<h2>Results (<%= @properties.flat_map(&:units).count %>)</h2>
 
-  <div>
-    <%= form.submit "Search" %>
-  </div>
-<% end %>
+<div class="row">
 
-<h2>Results (<%= @properties.count %>)</h2>
+  <% @properties.each do |property| %>
 
-<% @properties.each do |property| %>
-  <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
-    <h3><%= link_to property.name, property_path(property) %></h3>
-    <p><strong>Address:</strong> <%= property.address %></p>
-    <p><strong>Description:</strong> <%= property.description %></p>
-    <p><strong>Available Units:</strong> <%= property.units.available.count %> / <%= property.units.count %></p>
-  </div>
-<% end %>
+    <% property.units.each do |unit| %>
+
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+
+          <div class="card-body">
+
+            <h3 class="card-title">Unit <%= unit.unit_number %></h3>
+            <p class="card-text"><strong>Size:</strong> <%= unit.size %> sq ft</p>
+            <p class="card-text"><strong>Rental Rate:</strong> $<%= unit.rental_rate %>/month</p>
+            <p class="card-text"><strong>Classification:</strong> <%= unit.classification.humanize %></p>
+            <p class="card-text"><strong>Status:</strong> <%= unit.status.humanize %></p>
+
+            <h5 class="card-title">
+              <%= property.name %>
+            </h5>
+
+            <p class="card-text">
+              <strong>Address:</strong>
+              <%= property.address %>
+            </p>
+
+            <p class="card-text">
+              <strong>Description:</strong>
+              <%= property.description %>
+            </p>
+
+            <p class="card-text">
+              <strong>Available Units:</strong>
+              <%= property.units.available.count %> / <%= property.units.count %>
+            </p>
+
+          </div>
+
+          <div class="card-footer bg-white">
+
+            <% if unit.available? %>
+              <%= link_to "View Details & Schedule",
+                property_unit_path(property, unit),
+                class: "btn btn-sm btn-primary" %>
+            <% else %>
+              <span class="text-muted">Not Available</span>
+            <% end %>
+
+
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+    
+  <% end %>
+
+</div>

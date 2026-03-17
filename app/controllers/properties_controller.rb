@@ -2,6 +2,11 @@ class PropertiesController < ApplicationController
   def index
     @properties = Property.includes(:units).all
 
+    # Search by name
+    if params[:name].present?
+      @properties = @properties.where("name LIKE ?", "%#{params[:name]}%")
+    end
+
     # Search by location
     if params[:location].present?
       @properties = @properties.where("address LIKE ?", "%#{params[:location]}%")
