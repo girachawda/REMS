@@ -1,2 +1,22 @@
 <h1>LeaseApplications#index</h1>
-<p>Find me in app/views/lease_applications/index.html.erb</p>
+<% @applications.each do |app| %>
+  <tr>
+    <td><%= app.unit.unit_number %></td>
+    <td><%= app.user.name %></td>
+    <td><%= app.start_date %></td>
+    <td><%= app.duration %> months</td>
+    <td><%= app.status %></td>
+
+    <td>
+      <%= button_to "Approve",
+          approve_lease_application_path(app),
+          method: :patch,
+          class: "btn btn-success btn-sm" %>
+
+      <%= button_to "Reject",
+          reject_lease_application_path(app),
+          method: :patch,
+          class: "btn btn-danger btn-sm" %>
+    </td>
+  </tr>
+<% end %>

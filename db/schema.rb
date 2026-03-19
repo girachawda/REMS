@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_16_045713) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_19_050117) do
   create_table "accounts", force: :cascade do |t|
     t.decimal "balance", precision: 15, scale: 2, default: "0.0"
     t.string "payment_cycle", default: "monthly"
@@ -116,6 +116,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_16_045713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "rejection_reason"
+    t.string "renewal_policy"
     t.index ["unit_id"], name: "index_rental_applications_on_unit_id"
     t.index ["user_id"], name: "index_rental_applications_on_user_id"
   end

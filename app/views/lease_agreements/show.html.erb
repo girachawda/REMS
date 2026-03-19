@@ -1,2 +1,64 @@
-<h1>LeaseAgreement#show</h1>
-<p>Find me in app/views/lease_agreements/show.html.erb</p>
+<div class="container mt-5">
+  <div class="card shadow-sm p-4">
+
+    <h2 class="text-center mb-4">Lease Agreement</h2>
+
+    <hr>
+
+    <p><strong>Tenant:</strong> <%= @lease_agreement.user.name %></p>
+    <p><strong>Property:</strong> <%= @lease_agreement.unit.property.name %></p>
+    <p><strong>Unit:</strong> <%= @lease_agreement.unit.unit_number %></p>
+
+    <hr>
+
+    <p>
+      This Lease Agreement is made between
+      <strong><%= @lease_agreement.user.name %></strong>
+      (the "Tenant") and the Property Owner.
+    </p>
+
+    <p>
+      The Tenant agrees to lease Unit
+      <strong><%= @lease_agreement.unit.unit_number %></strong>
+      located at
+      <strong><%= @lease_agreement.unit.property.address %></strong>.
+    </p>
+
+    <hr>
+
+    <h5>Lease Terms</h5>
+
+    <ul>
+      <li><strong>Start Date:</strong> <%= @lease_agreement.start_date %></li>
+      <li><strong>End Date:</strong> <%= @lease_agreement.end_date %></li>
+      <li><strong>Duration:</strong> <%= @lease_agreement.duration %> months</li>
+      <li><strong>Monthly Rent:</strong> $<%= @lease_agreement.unit.rental_rate %></li>
+    </ul>
+
+    <hr>
+
+    <p>
+      The Tenant agrees to pay the monthly rent on time and abide by all
+      property rules and regulations.
+    </p>
+
+    <p>
+      Failure to comply may result in termination of this lease agreement.
+    </p>
+
+    <hr>
+
+    <div class="row mt-5">
+      <div class="col text-center">
+        <p>__________________________</p>
+        <p>Tenant Signature</p>
+      </div>
+
+      <div class="col text-center">
+        <p>__________________________</p>
+        <p>Agent Signature</p>
+      </div>
+    </div>
+
+  </div>
+</div>

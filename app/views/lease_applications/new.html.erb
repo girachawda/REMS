@@ -1,2 +1,73 @@
-<h1>LeaseApplications#new</h1>
-<p>Find me in app/views/lease_applications/new.html.erb</p>
+
+<div class="row justify-content-center">
+<div class="col-md-8 col-lg-6">
+    <h1 class="mb-4">Lease Application</h1>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+
+        <% if @unit %>
+          <div class="mb-4">
+            <h5 class="card-title">
+              Unit <%= @unit.unit_number %> - <%= @unit.property.name %>
+            </h5>
+            <p class="text-muted mb-0">
+              <strong>Rent:</strong> $<%= @unit.rental_rate %>/month
+            </p>
+          </div>
+        <% end %>
+
+        <%= form_with model: @application, url: lease_applications_path, local: true do |form| %>
+
+          <% if @application.errors.any? %>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <% @application.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <%= form.hidden_field :unit_id, value: @unit.id %>
+
+          <!-- Start Date -->
+          <div class="mb-3">
+            <%= form.label :start_date, class: "form-label" %>
+            <%= form.date_field :start_date, class: "form-control" %>
+          </div>
+
+          <!-- Duration -->
+          <div class="mb-4">
+            <%= form.label :duration, "Lease Duration (months)", class: "form-label" %>
+            <%= form.number_field :duration, class: "form-control" %>
+          </div>
+
+          <div class="mb-4">
+            <%= form.label :renewal_policy, "Renewal Policy", class: "form-label" %>
+            <%= form.select :renewal_policy,
+                [
+                    ["No Renewal", "none"],
+                    ["Auto Renew", "auto"]
+                ],
+                {},
+                class: "form-select" %>
+            </div>
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-between">
+            <%= link_to "Back",
+                property_unit_path(@unit.property, @unit),
+                class: "btn btn-outline-secondary" %>
+
+            <%= form.submit "Submit Application",
+                class: "btn btn-success" %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+</div>
