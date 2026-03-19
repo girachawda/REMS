@@ -1,12 +1,18 @@
 # Create Users with different roles
 tenant1 = User.find_or_create_by!(email: "tenant1@example.com") do |u|
-  u.name = "John Tenant"
+  u.name = "Homer Simpson"
   u.password = "password"
   u.role = :tenant
 end
 
 tenant2 = User.find_or_create_by!(email: "tenant2@example.com") do |u|
-  u.name = "Jane Doe"
+  u.name = "Krusty the Clown"
+  u.password = "password"
+  u.role = :tenant
+end
+
+tenant3 = User.find_or_create_by!(email: "tenant3@example.com") do |u|
+  u.name = "Mr. Burns"
   u.password = "password"
   u.role = :tenant
 end
@@ -121,4 +127,146 @@ start_date = Date.today
   )
 end
 
-puts "Seeded database with users, properties, units, and availability"
+Account.find_or_create_by!(
+  balance: 1350.37,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 3,
+  user_id: 1,
+)
+
+Account.find_or_create_by!(
+  balance: 1350.37,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 3,
+  user_id: 2,
+)
+
+Account.find_or_create_by!(
+  balance: 0,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 0,
+  user_id: 3,
+)
+
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 1,
+  unit_id: 1
+)
+
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 1,
+  unit_id: 2
+)
+
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 2,
+  unit_id: 3
+)
+
+Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 1,
+  unit_id: 1
+  )
+
+  Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 1,
+  unit_id: 2
+  )
+
+  Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 2,
+  unit_id: 3
+  )
+
+Utility.find_or_create_by!(
+  electricity_charges: 35,
+  water_charges: 35,
+  waste_management_charges: 56,
+  lease_id: 1,
+)
+
+Utility.find_or_create_by!(
+  electricity_charges: 102,
+  water_charges: 53,
+  waste_management_charges: 23,
+  lease_id: 2,
+)
+
+Utility.find_or_create_by!(
+  electricity_charges: 89,
+  water_charges: 67,
+  waste_management_charges: 45,
+  lease_id: 3,
+)
+  MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: false,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 1,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 134.21
+  )
+
+    MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: false,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 1,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 134.21
+  )
+
+    MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: true,
+    is_routine: false,
+    tenant_caused: true,
+    unit_id: 2,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 231.21
+  )
+
+  MaintenanceRequest.find_or_create_by!(
+    priority: 4,
+    is_emergency: true,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 3,
+    user_id: 2,
+    status: "submitted",
+    maintenance_cost: 523.21
+  )
+
+puts "Seeded database."
