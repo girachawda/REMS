@@ -1,17 +1,38 @@
-<h1>Login</h1>
+<div class="container py-5" style="max-width: 500px;">
 
-<%= form_with url: login_path, method: :post do |form| %>
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email, required: true %>
+  <div class="text-center mb-4">
+    <h1 class="h3">Login</h1>
   </div>
 
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+
+      <%= form_with url: login_path, method: :post do |form| %>
+
+        <div class="mb-3">
+          <%= form.label :email, class: "form-label" %>
+          <%= form.email_field :email,
+              class: "form-control",
+              required: true,
+              placeholder: "Enter your email" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :password, class: "form-label" %>
+          <%= form.password_field :password,
+              class: "form-control",
+              required: true,
+              placeholder: "Enter your password" %>
+        </div>
+
+        <div class="d-grid">
+          <%= form.submit "Login",
+              class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+
+    </div>
   </div>
 
-  <div>
-    <%= form.submit "Login" %>
-  </div>
-<% end %>
+</div>

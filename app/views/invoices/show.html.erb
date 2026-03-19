@@ -1,2 +1,118 @@
-<h1>Invoices#show</h1>
-<p>Find me in app/views/invoices/show.html.erb</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="mb-1">Invoice Details</h1>
+    <p class="text-muted mb-0">Review invoice information and billing details.</p>
+  </div>
+
+  <%= link_to "Back to Invoices", invoices_path, class: "btn btn-outline-secondary" %>
+</div>
+
+<% badge_classes = case @invoice.status
+   when "paid" then "bg-success"
+   when "unpaid" then "bg-warning text-dark"
+   when "overdue" then "bg-danger"
+   else "bg-secondary"
+   end %>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="mb-4">Invoice Summary</h4>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Tenant</div>
+          <div class="col-sm-8">
+            <div class="fw-semibold"><%= @invoice.lease.user.name %></div>
+            <small class="text-muted"><%= @invoice.lease.user.email %></small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Property</div>
+          <div class="col-sm-8"><%= @invoice.lease.unit.property.name %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Unit</div>
+          <div class="col-sm-8">Unit <%= @invoice.lease.unit.unit_number %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Charge Type</div>
+          <div class="col-sm-8 text-capitalize"><%= @invoice.charge_type %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Total Charge</div>
+          <div class="col-sm-8 fw-semibold">$<%= sprintf("%.2f", @invoice.total_charge.to_f) %></div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-4 text-muted">Due Date</div>
+          <div class="col-sm-8"><%= @invoice.due_date.strftime("%b %d, %Y") %></div>
+        </div>
+
+        <div class="row mb-0">
+          <div class="col-sm-4 text-muted">Status</div>
+          <div class="col-sm-8">
+            <span class="badge <%= badge_classes %> text-capitalize"><%= @invoice.status %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if @invoice.charge_type == "utility" && @invoice.lease.utility.present? %>
+      <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+          <h4 class="mb-4">Utility Breakdown</h4>
+
+          <div class="row mb-3">
+            <div class="col-sm-4 text-muted">Electricity</div>
+            <div class="col-sm-8">$<%= sprintf("%.2f", @invoice.lease.utility.electricity_charges.to_f) %></div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-4 text-muted">Water</div>
+            <div class="col-sm-8">$<%= sprintf("%.2f", @invoice.lease.utility.water_charges.to_f) %></div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-4 text-muted">Waste Management</div>
+            <div class="col-sm-8">$<%= sprintf("%.2f", @invoice.lease.utility.waste_management_charges.to_f) %></div>
+          </div>
+
+          <hr>
+
+          <div class="row mb-0">
+            <div class="col-sm-4 fw-semibold">Total</div>
+            <div class="col-sm-8 fw-semibold">$<%= sprintf("%.2f", @invoice.total_charge.to_f) %></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="mb-4">Account Details</h5>
+
+        <div class="mb-3">
+          <div class="text-muted small">Payment Cycle</div>
+          <div class="text-capitalize"><%= @invoice.account.payment_cycle %></div>
+        </div>
+
+        <div class="mb-3">
+          <div class="text-muted small">Discount</div>
+          <div><%= @invoice.account.discount_percent.to_f %>%</div>
+        </div>
+
+        <div class="mb-0">
+          <div class="text-muted small">Current Balance</div>
+          <div class="fw-semibold">$<%= sprintf("%.2f", @invoice.account.balance.to_f) %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
