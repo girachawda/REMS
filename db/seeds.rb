@@ -58,6 +58,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "101") do |u|
   u.classification = :tier_1
   u.status = :available
   u.intended_business_purpose = "dining"
+  u.picture = "https://unsplash.com/photos/photo-of-dining-table-and-chairs-inside-room-eHD8Y1Znfpk"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
@@ -66,6 +67,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
   u.classification = :tier_2
   u.status = :available
   u.intended_business_purpose = "dining"
+  u.picture = "https://unsplash.com/photos/people-sitting-on-chair-in-restaurant-p85-MG66GRY"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
@@ -74,6 +76,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
   u.classification = :tier_1
   u.status = :occupied
   u.intended_business_purpose = "retail"
+  u.picture = "https://unsplash.com/photos/white-metal-shelf-with-food-packs-QnMeRW36-zY"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
@@ -82,6 +85,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
   u.classification = :tier_2
   u.status = :available
   u.intended_business_purpose = "office"
+  u.picture = "https://unsplash.com/photos/man-and-woman-sitting-on-table-U2BI3GMnSSE"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
@@ -90,6 +94,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
   u.classification = :tier_3
   u.status = :available
   u.intended_business_purpose = "office"
+  u.picture = "https://unsplash.com/photos/hallway-between-glass-panel-doors-yWwob8kwOCk"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
@@ -98,6 +103,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
   u.classification = :tier_1
   u.status = :available
   u.intended_business_purpose = "retail"
+  u.picture = "https://unsplash.com/photos/black-trike-parked-near-soter-F6-U5fGAOik"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
@@ -106,6 +112,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
   u.classification = :tier_4
   u.status = :maintenance
   u.intended_business_purpose = "dining"
+  u.picture = "https://unsplash.com/photos/brown-and-gray-concrete-store-nmpW_WwwVSc"
 end
 
 # Create some agent availability
