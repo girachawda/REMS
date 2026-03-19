@@ -35,7 +35,7 @@ class UnitsController < ApplicationController
       status: params[:status],
       intended_business_purpose: params[:intended_business_purpose],
     )
-            
+
     redirect_to unit_path(@unit), notice: "Unit updated"
     end
   end
