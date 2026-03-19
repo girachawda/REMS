@@ -8,3 +8,43 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+@import "bootstrap";
+
+body {
+  background-color: #f8f9fa;
+}
+
+.navbar .nav-link.active {
+  font-weight: 600;
+  background-color: grey;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  transition: 0.2s;
+}
+
+.card-footer .btn {
+  margin-right: 5px;
+}
+
+.property-card .card-title {
+  text-align: center;
+}
+
+.property-card .card-footer {
+  text-align: center;
+}
+
+.card img {
+  height: 100%;
+  object-fit: cover;
+}

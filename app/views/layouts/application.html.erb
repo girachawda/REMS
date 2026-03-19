@@ -19,46 +19,89 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
   <body>
-    <header style="background: #333; color: white; padding: 10px;">
-      <nav>
-        <%= link_to "REMS", root_path, style: "color: white; text-decoration: none; font-weight: bold;" %>
-        |
-        <%= link_to "Properties", properties_path, style: "color: white; text-decoration: none;" %>
-        |
-        <% if logged_in? %>
-          <%= link_to "Appointments", appointments_path, style: "color: white; text-decoration: none;" %>
-          |
-          <% if current_user.leasing_agent? %>
-            <%= link_to "My Availability", availabilities_path, style: "color: white; text-decoration: none;" %>
-            |
-          <% end %>
-          <span style="color: white;">Welcome, <%= current_user.name %> (<%= current_user.role.humanize %>)</span>
-          |
-          <%= button_to "Logout", logout_path, method: :delete, style: "display: inline; background: none; border: none; color: white; text-decoration: underline; cursor: pointer;" %>
-        <% else %>
-          <%= link_to "Login", login_path, style: "color: white; text-decoration: none;" %>
-        <% end %>
-      </nav>
-    </header>
 
-    <main style="padding: 20px;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+
+        <%= link_to "REMS", root_path, class: "navbar-brand" %>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav me-auto">
+
+            <li class="nav-item">
+              <%= link_to "Properties", properties_path, class: nav_link_class(properties_path) %>
+            </li>
+
+            <% if logged_in? %>
+              <li class="nav-item">
+                <%= link_to "Appointments", appointments_path, class: nav_link_class(appointments_path) %>
+              </li>
+
+              <% if current_user.leasing_agent? %>
+                <li class="nav-item">
+                  <%= link_to "My Availability", availabilities_path, class: nav_link_class(availabilities_path) %>
+                </li>
+              <% end %>
+            <% end %>
+
+          </ul>
+
+          <ul class="navbar-nav ms-auto">
+
+            <% if logged_in? %>
+
+              <li class="nav-item">
+                <span class="navbar-text me-3">
+                  Welcome, <%= current_user.name %> (<%= current_user.role.humanize %>)
+                </span>
+              </li>
+
+              <li class="nav-item">
+                <%= button_to "Logout",
+                    logout_path,
+                    method: :delete,
+                    class: "btn btn-outline-light btn-sm" %>
+              </li>
+
+            <% else %>
+
+              <li class="nav-item">
+                <%= link_to "Login", login_path, class: "btn btn-outline-light btn-sm" %>
+              </li>
+
+            <% end %>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+
       <% if notice %>
-        <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 10px; margin: 10px 0; color: #155724;">
+        <div class="alert alert-success">
           <%= notice %>
         </div>
       <% end %>
 
       <% if alert %>
-        <div style="background: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin: 10px 0; color: #721c24;">
+        <div class="alert alert-danger">
           <%= alert %>
         </div>
       <% end %>
 
       <%= yield %>
-    </main>
-  </body>
+
+    </div>
+
+</body>
 </html>

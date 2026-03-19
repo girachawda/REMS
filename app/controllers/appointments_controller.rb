@@ -2,7 +2,14 @@ class AppointmentsController < ApplicationController
   before_action :require_login
 
   def index
-    @appointments = current_user.appointments.includes(:unit, :availability).order(scheduled_at: :desc)
+    if current_user.leasing_agent?
+      @appointments = Appointment
+                        .includes(unit: :property, availability: :user)
+                        .joins(:availability)
+                        .where(availabilities: { user: current_user.id })
+    else
+      @appointments = current_user.appointments.includes(:unit, :availability).order(scheduled_at: :desc)
+    end
   end
 
   def new
@@ -29,6 +36,30 @@ class AppointmentsController < ApplicationController
                                    .where("start_time >= ?", Time.now)
                                    .order(:start_time)
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @appointment = Appointment.find(params[:id])
+
+    # Optional: basic authorization check
+    unless owns_appointment?(@appointment)
+      redirect_to appointments_path, alert: "Not authorized"
+      return
+    end
+
+    if @appointment.update(status: params[:status])
+      redirect_to appointments_path, notice: "Appointment updated"
+    else
+      redirect_to appointments_path, alert: "Update failed"
+    end
+  end
+
+  def owns_appointment?(appointment)
+    if current_user.leasing_agent?
+      appointment.availability.user.id == current_user.id
+    else
+      appointment.user_id == current_user.id
     end
   end
 
