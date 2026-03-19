@@ -2,6 +2,10 @@ class PropertiesController < ApplicationController
   def index
     @properties = Property.includes(:units).all
 
+    @maximum_rent = Unit.maximum(:rental_rate)&.round
+
+    @minimum_size = Unit.minimum(:size)&.round
+
     # Search by name
     if params[:name].present?
       @properties = @properties.where("name LIKE ?", "%#{params[:name]}%")
@@ -24,12 +28,12 @@ class PropertiesController < ApplicationController
 
     # Filter by classification
     if params[:classification].present?
-      @properties = @properties.joins(:units).where("units.classification = ?", params[:classification]).distinct
+      @properties = @properties.joins(:units).where(units: { classification: params[:classification] }).distinct
     end
 
     # Filter by availability status
     if params[:status].present?
-      @properties = @properties.joins(:units).where("units.status = ?", params[:status]).distinct
+      @properties = @properties.joins(:units).where(units: { status: params[:status] }).distinct
     end
   end
 

@@ -1,33 +1,50 @@
 <h1><%= @property.name %> - Unit <%= @unit.unit_number %></h1>
 
-<div style="border: 1px solid #ccc; padding: 15px; margin: 15px 0;">
-  <h2>Unit Details</h2>
-  <p><strong>Size:</strong> <%= @unit.size %> sq ft</p>
-  <p><strong>Rental Rate:</strong> $<%= @unit.rental_rate %>/month</p>
-  <p><strong>Classification:</strong> <%= @unit.classification.humanize %></p>
-  <p><strong>Status:</strong> <%= @unit.status.humanize %></p>
+
+<div class="card shadow-sm h-100">
+  <div class="row g-0">
+    <div class="col-md-6">
+      <%= image_tag "https://images.unsplash.com/photo-1481437156560-3205f6a55735?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw0fHxtYWxsfGVufDB8fHx8MTc3Mzc5NTIyMXww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80", class: "img-fluid rounded-start", alt: "Property Image" %>
+    </div>
+    <div class="col-md-6">
+      <div class="card-body">
+
+        <h3 class="card-title">Unit Details</h3>
+        <p class="card-text"><strong>Size:</strong> <%= @unit.size %> sq ft</p>
+        <p class="card-text"><strong>Rental Rate:</strong> $<%= @unit.rental_rate %>/month</p>
+        <p class="card-text"><strong>Classification:</strong> <%= @unit.classification.humanize %></p>
+        <p class="card-text"><strong>Status:</strong> <%= @unit.status.humanize %></p>
+
+
+
+        <% if logged_in? && @unit.available? && @availabilities.any? %>
+        
+          <h3>Agent Availability</h3>
+          <ul>
+            <% @availabilities.each do |availability| %>
+              <li>
+                <%= availability.user.name %> -
+                <%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %> to
+                <%= availability.end_time.strftime("%I:%M %p") %>
+              </li>
+            <% end %>
+          </ul>
+          <h2 class="card-title">Schedule a Viewing</h2>
+          <%= link_to "Book an Appointment", new_appointment_path(unit_id: @unit.id),
+            class: "btn btn-sm btn-primary" %>
+          
+        <% elsif !logged_in? %>
+          <p><%= link_to "Login", login_path %> to schedule a viewing</p>
+        <% elsif !@availabilities.any? %>
+          <p>No agent availability at this time.</p>
+        <% else %>
+          <span class="text-muted">Not Available</span>
+        <% end %>
+
+
+      </div>
+    </div>
+  </div>  
+
 </div>
 
-<% if logged_in? && @unit.available? %>
-  <h2>Schedule a Viewing</h2>
-  <%= link_to "Book an Appointment", new_appointment_path(unit_id: @unit.id) %>
-
-  <h3>Agent Availability</h3>
-  <% if @availabilities.any? %>
-    <ul>
-      <% @availabilities.each do |availability| %>
-        <li>
-          <%= availability.user.name %> -
-          <%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %> to
-          <%= availability.end_time.strftime("%I:%M %p") %>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No agent availability at this time.</p>
-  <% end %>
-<% elsif !logged_in? %>
-  <p><%= link_to "Login", login_path %> to schedule a viewing</p>
-<% end %>
-
-<%= link_to "Back to Property", property_path(@property) %>
