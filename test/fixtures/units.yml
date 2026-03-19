@@ -7,6 +7,7 @@ one:
   rental_rate: 2000.0
   classification: 0
   status: 0
+  intended_business_purpose: "dining"
 
 two:
   property: two
@@ -15,3 +16,4 @@ two:
   rental_rate: 2500.0
   classification: 1
   status: 0
+  intended_business_purpose: "dining"
