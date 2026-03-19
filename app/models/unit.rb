@@ -11,4 +11,5 @@ class Unit < ApplicationRecord
   validates :rental_rate, presence: true, numericality: { greater_than: 0 }
   validates :classification, presence: true
   validates :status, presence: true
+  validates :intended_business_purpose, presence: true
 end

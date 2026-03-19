@@ -51,6 +51,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "101") do |u|
   u.rental_rate = 2500.0
   u.classification = :tier_1
   u.status = :available
+  u.intended_business_purpose = "dining"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
@@ -58,6 +59,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
   u.rental_rate = 1800.0
   u.classification = :tier_2
   u.status = :available
+  u.intended_business_purpose = "dining"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
@@ -65,6 +67,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
   u.rental_rate = 3200.0
   u.classification = :tier_1
   u.status = :occupied
+  u.intended_business_purpose = "retail"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
@@ -72,6 +75,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
   u.rental_rate = 2000.0
   u.classification = :tier_2
   u.status = :available
+  u.intended_business_purpose = "office"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
@@ -79,6 +83,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
   u.rental_rate = 1200.0
   u.classification = :tier_3
   u.status = :available
+  u.intended_business_purpose = "office"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
@@ -86,6 +91,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
   u.rental_rate = 4500.0
   u.classification = :tier_1
   u.status = :available
+  u.intended_business_purpose = "retail"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
@@ -93,6 +99,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
   u.rental_rate = 900.0
   u.classification = :tier_4
   u.status = :maintenance
+  u.intended_business_purpose = "dining"
 end
 
 # Create some agent availability
