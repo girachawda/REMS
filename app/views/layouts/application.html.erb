@@ -50,6 +50,24 @@
                   <%= link_to "My Availability", availabilities_path, class: nav_link_class(availabilities_path) %>
                 </li>
               <% end %>
+
+              <% if current_user.tenant? %>
+                <li class="nav-item">
+                  <%= link_to "Invoices", invoices_path, class: nav_link_class(invoices_path) %>
+                </li>
+              <% end %>
+
+              <% if current_user.administrative_staff? %>
+                <li class="nav-item">
+                  <%= link_to "Accounts", accounts_path, class: nav_link_class(accounts_path) %>
+                </li>
+              <% end %>
+
+              <% if current_user.tenant? %>
+                <li class="nav-item">
+                  <%= link_to "Payment", payments_path, class: nav_link_class(payments_path) %>
+                </li>
+              <% end %>
             <% end %>
 
           </ul>
