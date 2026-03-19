@@ -31,21 +31,19 @@ class AccountsController < ApplicationController
 
       last_utility_invoice = @account.invoices.where(lease: lease, charge_type: "utility").order(due_date: :desc).first
       last_due_date = last_rent_invoice&.due_date || lease.start_date.end_of_month
-      amount = rand(100)
       today = Date.current
 
       while today > last_due_date do
-        # We would pull these from an external system or log actual numbers in the database, but since we don't have actual utility numbers, we just randomly generate a number to "simulate" utility usage
-        water_charges = rand(30)
-        electricity_charges = rand(40)
-        waste_management_charges = rand(10)
+        water_charges = lease.unit.water_charges
+        electricity_charges = lease.unit.electricity_charges
+        waste_management_charges = lease.unit.waste_management_charges
 
         invoice = @account.invoices.create(
           lease: lease,
           charge_type: "utility",
           total_charge: water_charges + electricity_charges + waste_management_charges,
           due_date: last_due_date >> 1,
-          status: "unpaid"
+          status: "unpaid",
           water_charges: water_charges,
           electricity_charges: electricity_charges,
           waste_management_charges: waste_management_charges
@@ -86,7 +84,7 @@ class AccountsController < ApplicationController
         else
           invoice.update_column(:status, "paid")
         end
-      end      
+      end
     end
 
     for invoice in @account.invoices.where(status: "unpaid").order(due_date: :desc) do
@@ -94,7 +92,7 @@ class AccountsController < ApplicationController
         invoice.update_column(:status, "overdue")
         flash.now[:alert] = "Outstanding invoices have passed the due date. Please pay as soon as possible."
       end
-    end    
+    end
 
     @monthly_invoices = @account.invoices.where(lease: lease, created_at: Date.current.last_month.beginning_of_month..Date.current.last_month.end_of_month).order(due_date: :desc)
   end
