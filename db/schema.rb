@@ -134,7 +134,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_19_173114) do
     t.datetime "updated_at", null: false
     t.string "intended_business_purpose"
     t.integer "utilities_id"
-    t.string "pictures"
+    t.string "picture"
     t.index ["property_id"], name: "index_units_on_property_id"
     t.index ["utilities_id"], name: "index_units_on_utilities_id"
   end
