@@ -34,9 +34,9 @@ class AccountsController < ApplicationController
       today = Date.current
 
       while today > last_due_date do
-        water_charges = lease.unit.water_charges
-        electricity_charges = lease.unit.electricity_charges
-        waste_management_charges = lease.unit.waste_management_charges
+        water_charges = lease.unit.utility.water_charges
+        electricity_charges = lease.unit.utility.electricity_charges
+        waste_management_charges = lease.unit.utility.waste_management_charges
 
         invoice = @account.invoices.create(
           lease: lease,
@@ -52,7 +52,7 @@ class AccountsController < ApplicationController
       end
 
       last_autopayment = @account.payments.where(method: "automatic").order(created_at: :desc).first
-      last_autopayment_date = last_autopayment&.created_at.to_date || lease.start_date
+      last_autopayment_date = last_autopayment&.created_at&.to_date || lease.start_date
 
       while today > last_autopayment_date do
         payment = @account.payments.create(
