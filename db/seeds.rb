@@ -1,12 +1,18 @@
 # Create Users with different roles
 tenant1 = User.find_or_create_by!(email: "tenant1@example.com") do |u|
-  u.name = "John Tenant"
+  u.name = "Homer Simpson"
   u.password = "password"
   u.role = :tenant
 end
 
 tenant2 = User.find_or_create_by!(email: "tenant2@example.com") do |u|
-  u.name = "Jane Doe"
+  u.name = "Krusty the Clown"
+  u.password = "password"
+  u.role = :tenant
+end
+
+tenant3 = User.find_or_create_by!(email: "tenant3@example.com") do |u|
+  u.name = "Mr. Burns"
   u.password = "password"
   u.role = :tenant
 end
@@ -51,6 +57,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "101") do |u|
   u.rental_rate = 2500.0
   u.classification = :tier_1
   u.status = :available
+  u.intended_business_purpose = "dining"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
@@ -58,6 +65,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
   u.rental_rate = 1800.0
   u.classification = :tier_2
   u.status = :available
+  u.intended_business_purpose = "dining"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
@@ -65,6 +73,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
   u.rental_rate = 3200.0
   u.classification = :tier_1
   u.status = :occupied
+  u.intended_business_purpose = "retail"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
@@ -72,6 +81,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
   u.rental_rate = 2000.0
   u.classification = :tier_2
   u.status = :available
+  u.intended_business_purpose = "office"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
@@ -79,6 +89,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
   u.rental_rate = 1200.0
   u.classification = :tier_3
   u.status = :available
+  u.intended_business_purpose = "office"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
@@ -86,6 +97,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
   u.rental_rate = 4500.0
   u.classification = :tier_1
   u.status = :available
+  u.intended_business_purpose = "retail"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
@@ -93,6 +105,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
   u.rental_rate = 900.0
   u.classification = :tier_4
   u.status = :maintenance
+  u.intended_business_purpose = "dining"
 end
 
 # Create some agent availability
@@ -114,188 +127,146 @@ start_date = Date.today
   )
 end
 
-puts "Seeded database with users, properties, units, and availability"
-
-puts "Seeding leases, accounts, utilities, invoices, and payments..."
-
-# Leases
-unit_103 = Unit.find_by!(property: prop1, unit_number: "103")
-unit_201 = Unit.find_by!(property: prop2, unit_number: "201")
-
-unit_103.update!(status: :occupied)
-unit_201.update!(status: :occupied)
-
-# Leases
-lease1 = Lease.find_or_create_by!(user: tenant1, unit: unit_103) do |l|
-  l.duration = 12
-  l.renewal_policy = "Auto-renew yearly unless terminated"
-  l.start_date = Date.today.beginning_of_year
-  l.end_date = Date.today.beginning_of_year + 12.months - 1.day
-  l.active = true
-end
-
-lease2 = Lease.find_or_create_by!(user: tenant2, unit: unit_201) do |l|
-  l.duration = 12
-  l.renewal_policy = "Manual renewal required"
-  l.start_date = Date.today.beginning_of_year
-  l.end_date = Date.today.beginning_of_year + 12.months - 1.day
-  l.active = true
-end
-
-# Accounts
-account1 = Account.find_or_create_by!(user: tenant1) do |a|
-  a.balance = 0.0
-  a.payment_cycle = "monthly"
-  a.bank_transfer_number = 111111
-  a.discount_percent = 0.0
-end
-
-account2 = Account.find_or_create_by!(user: tenant2) do |a|
-  a.balance = 0.0
-  a.payment_cycle = "quarterly"
-  a.bank_transfer_number = 222222
-  a.discount_percent = 10.0
-end
-
-# Reset balances so re-seeding doesn't keep stacking if records already exist
-account1.update!(balance: 0.0)
-account2.update!(balance: 0.0)
-
-# Utility records
-utility1 = Utility.find_or_create_by!(lease: lease1) do |u|
-  u.electricity_charges = 85.50
-  u.water_charges = 32.25
-  u.waste_management_charges = 18.75
-end
-
-utility2 = Utility.find_or_create_by!(lease: lease2) do |u|
-  u.electricity_charges = 120.10
-  u.water_charges = 44.80
-  u.waste_management_charges = 25.40
-end
-
-utility_total_1 = utility1.electricity_charges.to_f + utility1.water_charges.to_f + utility1.waste_management_charges.to_f
-utility_total_2 = utility2.electricity_charges.to_f + utility2.water_charges.to_f + utility2.waste_management_charges.to_f
-
-# Rent calculations
-rent1 = unit_103.rental_rate.to_f
-rent2 = unit_201.rental_rate.to_f
-
-rent_invoice_total_1 = account1.automatic_payment_amount(rent1).to_f
-rent_invoice_total_2 = account2.automatic_payment_amount(rent2).to_f
-
-
-# Invoices
-
-# Tenant 1 - monthly rent invoice for current month
-invoice1_rent_current = Invoice.find_or_create_by!(
-  lease: lease1,
-  account: account1,
-  charge_type: "rent",
-  due_date: Date.today.beginning_of_month + 5.days
-) do |i|
-  i.total_charge = rent_invoice_total_1
-  i.status = "unpaid"
-end
-
-# Tenant 1 - previous month's overdue rent invoice
-invoice1_rent_overdue = Invoice.find_or_create_by!(
-  lease: lease1,
-  account: account1,
-  charge_type: "rent",
-  due_date: 1.month.ago.beginning_of_month + 5.days
-) do |i|
-  i.total_charge = rent_invoice_total_1
-  i.status = "overdue"
-end
-
-# Tenant 1 - monthly utility invoice
-invoice1_utility = Invoice.find_or_create_by!(
-  lease: lease1,
-  account: account1,
-  charge_type: "utility",
-  due_date: Date.today.end_of_month
-) do |i|
-  i.total_charge = utility_total_1
-  i.status = "unpaid"
-end
-
-# Tenant 2 - quarterly rent invoice with discount
-invoice2_rent = Invoice.find_or_create_by!(
-  lease: lease2,
-  account: account2,
-  charge_type: "rent",
-  due_date: Date.today.beginning_of_quarter + 7.days
-) do |i|
-  i.total_charge = rent_invoice_total_2
-  i.status = "unpaid"
-end
-
-# Tenant 2 - utility invoice, paid
-invoice2_utility = Invoice.find_or_create_by!(
-  lease: lease2,
-  account: account2,
-  charge_type: "utility",
-  due_date: Date.today.end_of_month
-) do |i|
-  i.total_charge = utility_total_2
-  i.status = "paid"
-end
-
-# Optional maintenance invoice example
-invoice1_maintenance = Invoice.find_or_create_by!(
-  lease: lease1,
-  account: account1,
-  charge_type: "maintenance",
-  due_date: Date.today - 3.days
-) do |i|
-  i.total_charge = 95.00
-  i.status = "overdue"
-end
-
-# Recalculate balances from invoices
-account1_balance =
-  account1.invoices.sum { |inv| inv.total_charge.to_f } -
-  account1.payments.sum { |p| p.amount.to_f }
-
-account2_balance =
-  account2.invoices.sum { |inv| inv.total_charge.to_f } -
-  account2.payments.sum { |p| p.amount.to_f }
-
-account1.update!(balance: account1_balance)
-account2.update!(balance: account2_balance)
-
-# Payments
-# Tenant 1 partial payment toward overall balance
-payment1 = Payment.find_or_create_by!(
-  account: account1,
-  amount: 1000.00,
-  paid_at: Date.today - 2.days,
-  method: "bank_transfer"
+Account.find_or_create_by!(
+  balance: 1350.37,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 3,
+  user_id: 1,
 )
 
-# Tenant 2 paid utility bill
-payment2 = Payment.find_or_create_by!(
-  account: account2,
-  amount: utility_total_2,
-  paid_at: Date.today - 1.day,
-  method: "credit_card"
+Account.find_or_create_by!(
+  balance: 1350.37,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 3,
+  user_id: 2,
 )
 
-# Recalculate balances after payments
-account1_balance =
-  account1.invoices.sum { |inv| inv.total_charge.to_f } -
-  account1.payments.sum { |p| p.amount.to_f }
+Account.find_or_create_by!(
+  balance: 0,
+  payment_cycle: "monthly",
+  bank_transfer_number: 123456789,
+  discount_percent: 0,
+  user_id: 3,
+)
 
-account2_balance =
-  account2.invoices.sum { |inv| inv.total_charge.to_f } -
-  account2.payments.sum { |p| p.amount.to_f }
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 1,
+  unit_id: 1
+)
 
-account1.update!(balance: account1_balance)
-account2.update!(balance: account2_balance)
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 1,
+  unit_id: 2
+)
 
-puts "Finished seeding invoicing data."
-puts "Tenant 1 account balance: #{account1.reload.balance}"
-puts "Tenant 2 account balance: #{account2.reload.balance}"
-puts "Tenant 1 overdue invoices: #{account1.invoices.where(status: 'overdue').count}"
-puts "Tenant 2 paid invoices: #{account2.invoices.where(status: 'paid').count}"
+RentalApplication.find_or_create_by!(
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  duration: 12,
+  status: "approved",
+  user_id: 2,
+  unit_id: 3
+)
+
+Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 1,
+  unit_id: 1
+  )
+
+  Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 1,
+  unit_id: 2
+  )
+
+  Lease.find_or_create_by!(
+  duration: 12,
+  renewal_policy: "automatic",
+  start_date: Date.new(2026, 01, 01),
+  end_date: Date.new(2026, 12, 31),
+  user_id: 2,
+  unit_id: 3
+  )
+
+Utility.find_or_create_by!(
+  electricity_charges: 35,
+  water_charges: 35,
+  waste_management_charges: 56,
+  lease_id: 1,
+)
+
+Utility.find_or_create_by!(
+  electricity_charges: 102,
+  water_charges: 53,
+  waste_management_charges: 23,
+  lease_id: 2,
+)
+
+Utility.find_or_create_by!(
+  electricity_charges: 89,
+  water_charges: 67,
+  waste_management_charges: 45,
+  lease_id: 3,
+)
+  MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: false,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 1,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 134.21
+  )
+
+    MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: false,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 1,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 134.21
+  )
+
+    MaintenanceRequest.find_or_create_by!(
+    priority: 1,
+    is_emergency: true,
+    is_routine: false,
+    tenant_caused: true,
+    unit_id: 2,
+    user_id: 1,
+    status: "submitted",
+    maintenance_cost: 231.21
+  )
+
+  MaintenanceRequest.find_or_create_by!(
+    priority: 4,
+    is_emergency: true,
+    is_routine: true,
+    tenant_caused: false,
+    unit_id: 3,
+    user_id: 2,
+    status: "submitted",
+    maintenance_cost: 523.21
+  )
+
+puts "Seeded database."
