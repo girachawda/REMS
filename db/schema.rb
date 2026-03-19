@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_19_050101) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_19_160252) do
   create_table "accounts", force: :cascade do |t|
     t.decimal "balance", precision: 15, scale: 2, default: "0.0"
     t.string "payment_cycle", default: "monthly"
@@ -133,7 +133,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_19_050101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "intended_business_purpose"
+    t.integer "utilities_id"
     t.index ["property_id"], name: "index_units_on_property_id"
+    t.index ["utilities_id"], name: "index_units_on_utilities_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -171,5 +173,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_19_050101) do
   add_foreign_key "rental_applications", "units"
   add_foreign_key "rental_applications", "users"
   add_foreign_key "units", "properties"
+  add_foreign_key "units", "utilities", column: "utilities_id"
   add_foreign_key "utilities", "leases"
 end

@@ -2,6 +2,7 @@
 class Unit < ApplicationRecord
   belongs_to :property
   has_many :appointments, dependent: :destroy
+  has_one :utility
 
   enum :classification, { tier_1: 0, tier_2: 1, tier_3: 2, tier_4: 3 }
   enum :status, { available: 0, occupied: 1, maintenance: 2 }
