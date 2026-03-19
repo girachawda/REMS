@@ -1,2 +1,76 @@
-<h1>Accounts#index</h1>
-<p>Find me in app/views/accounts/index.html.erb</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="mb-1">Accounts</h1>
+    <p class="text-muted mb-0">View tenant account balances, payment cycles, and discounts.</p>
+  </div>
+</div>
+
+<% if @accounts.any? %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Tenant</th>
+              <th>Payment Cycle</th>
+              <th>Discount</th>
+              <th>Bank Transfer #</th>
+              <th>Balance</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @accounts.each do |account| %>
+              <% balance_class =
+                   if account.balance.to_f > 0
+                     "text-danger fw-semibold"
+                   elsif account.balance.to_f == 0
+                     "text-success fw-semibold"
+                   else
+                     "text-dark fw-semibold"
+                   end %>
+
+              <tr>
+                <td>
+                  <div class="fw-semibold"><%= account.user.name %></div>
+                  <small class="text-muted"><%= account.user.email %></small>
+                </td>
+
+                <td>
+                  <span class="text-capitalize"><%= account.payment_cycle %></span>
+                </td>
+
+                <td>
+                  <%= account.discount_percent.to_f %>%
+                </td>
+
+                <td>
+                  <%= account.bank_transfer_number.present? ? account.bank_transfer_number : "—" %>
+                </td>
+
+                <td class="<%= balance_class %>">
+                  $<%= sprintf("%.2f", account.balance.to_f) %>
+                </td>
+
+                <td class="text-end">
+                  <%= link_to "View",
+                      account_path(account),
+                      class: "btn btn-sm btn-outline-primary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body text-center py-5">
+      <h4 class="text-muted mb-3">No accounts found</h4>
+      <p class="text-muted mb-0">Tenant account information will appear here.</p>
+    </div>
+  </div>
+<% end %>
