@@ -16,7 +16,7 @@ class UnitsController < ApplicationController
       unit_number: params[:unit_number],
       size: params[:size],
       rental_rate: params[:rental_rate],
-      classification: params[:rental_rate],
+      classification: params[:classification],
       status: params[:status],
       intended_business_purpose: params[:intended_business_purpose],
     )
