@@ -1,4 +1,12 @@
-<h1 class="mb-4">Property Portfolio</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">Property Portfolio</h1>
+
+  <% if current_user&.leasing_agent? %>
+    <%= link_to "Add Unit",
+        new_unit_path,
+        class: "btn btn-primary" %>
+  <% end %>
+</div>
 
 <div class="card mb-4 shadow-sm">
   <div class="card-body">
@@ -113,14 +121,23 @@
 
           <div class="card-footer bg-white">
 
-            <% if unit.available? %>
-              <%= link_to "View Details & Schedule",
-                property_unit_path(property, unit),
-                class: "btn btn-sm btn-primary" %>
-            <% else %>
-              <span class="text-muted">Not Available</span>
-            <% end %>
+            <% if current_user&.leasing_agent? %>
+              
+              <%= link_to "Edit Unit",
+                  edit_unit_path(unit),
+                  class: "btn btn-sm btn-outline-primary" %>
 
+            <% else %>
+
+              <% if unit.available? %>
+                <%= link_to "View Details & Schedule",
+                  property_unit_path(property, unit),
+                  class: "btn btn-sm btn-primary" %>
+              <% else %>
+                <span class="text-muted">Not Available</span>
+              <% end %>
+
+            <% end %>
 
           </div>
 

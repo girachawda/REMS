@@ -1,0 +1,64 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <h3 class="card-title mb-4 text-center">Edit Unit</h3>
+
+          <%= form_with model: [@property, @unit] do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :unit_number %>
+              <%= form.text_field :unit_number, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :size %>
+              <%= form.number_field :size, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :rental_rate %>
+              <%= form.number_field :rental_rate, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :classification %>
+              <%= form.select :classification,
+                  Unit.classifications.keys.map { |k| [k.humanize, k] },
+                  {},
+                  class: "form-select" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :status %>
+              <%= form.select :status,
+                  Unit.statuses.keys.map { |k| [k.humanize, k] },
+                  {},
+                  class: "form-select" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :intended_business_purpose %>
+              <%= form.text_field :intended_business_purpose, class: "form-control" %>
+            </div>
+
+            <div class="mb-4">
+              <%= form.label :picture %>
+              <%= form.text_field :picture, class: "form-control" %>
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <%= form.submit "Update Unit", class: "btn btn-primary" %>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

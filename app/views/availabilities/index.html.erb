@@ -1,24 +1,51 @@
-<h1>My Availability</h1>
+<div class="container mt-5">
 
-<%= link_to "Add New Availability", new_availability_path %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Availability</h1>
 
-<h2>Upcoming Availability</h2>
+    <%= link_to "Add New Availability",
+        new_availability_path,
+        class: "btn btn-primary" %>
+  </div>
 
-<% if @availabilities.any? %>
-  <table border="1" cellpadding="10">
-    <tr>
-      <th>Property</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-    </tr>
-    <% @availabilities.each do |availability| %>
-      <tr>
-        <td><%= availability.property.name %></td>
-        <td><%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %></td>
-        <td><%= availability.end_time.strftime("%B %d, %Y %I:%M %p") %></td>
-      </tr>
-    <% end %>
-  </table>
-<% else %>
-  <p>No availability set yet.</p>
-<% end %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+
+      <h3 class="card-title mb-4">Upcoming Availability</h3>
+
+      <% if @availabilities.any? %>
+
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Property</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @availabilities.each do |availability| %>
+                <tr>
+                  <td><%= availability.property.name %></td>
+                  <td><%= availability.start_time.strftime("%B %d, %Y %I:%M %p") %></td>
+                  <td><%= availability.end_time.strftime("%B %d, %Y %I:%M %p") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+      <% else %>
+
+        <div class="alert alert-info mb-0">
+          No availability set yet.
+        </div>
+
+      <% end %>
+
+    </div>
+  </div>
+
+</div>
