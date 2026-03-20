@@ -1,2 +1,62 @@
-<h1>LeaseAgreement#index</h1>
-<p>Find me in app/views/lease_agreements/index.html.erb</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="mb-1">Lease Agreements</h1>
+    <p class="text-muted mb-0">Review and sign lease agreements</p>
+  </div>
+</div>
+
+<% if @lease_agreements.any? %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Tenant</th>
+              <th>Property</th>
+              <th>Unit</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @lease_agreements.each do |lease| %>
+              <tr>
+                <td><%= lease.user.name %></td>
+                <td><%= lease.unit.property.name %></td>
+                <td><%= lease.unit.unit_number %></td>
+                <td><%= lease.start_date %></td>
+                <td><%= lease.end_date %></td>
+
+                <td>
+                  <% if lease.tenant_signed && lease.agent_signed %>
+                    <span class="badge bg-success">Active</span>
+                  <% else %>
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  <% end %>
+                </td>
+
+                <td class="text-end d-flex gap-2 justify-content-end">
+
+                  <%= link_to "View",
+                      lease_agreement_path(lease),
+                      class: "btn btn-sm btn-outline-secondary" %>
+
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body text-center py-5">
+      <h4 class="text-muted">No lease agreements found</h4>
+    </div>
+  </div>
+<% end %>

@@ -1,2 +1,32 @@
-<h1>LeaseApplications#reject</h1>
-<p>Find me in app/views/lease_applications/reject.html.erb</p>
+<h1>Reject Application</h1>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <p>
+      <strong>Unit:</strong> <%= @application.unit.unit_number %><br>
+      <strong>Tenant:</strong> <%= @application.user.name %>
+    </p>
+
+    <%= form_with model: @application,
+              url: reject_lease_application_path(@application),
+              method: :patch do |form| %>
+
+      <div class="mb-3">
+        <%= form.label :rejection_reason, "Rejection Reason", class: "form-label" %>
+        <%= form.text_area :rejection_reason,
+            class: "form-control",
+            rows: 4,
+            placeholder: "Enter reason for rejection..." %>
+      </div>
+
+      <div class="d-flex gap-2">
+        <%= form.submit "Confirm Reject", class: "btn btn-danger" %>
+
+        <%= link_to "Cancel", lease_applications_path, class: "btn btn-secondary" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

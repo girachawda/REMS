@@ -1,7 +1,11 @@
 class LeaseAgreementsController < ApplicationController
   # all leases (for staff members/admin)
   def index
-    @lease_agreements = Lease.all
+    if current_user.leasing_agent?
+      @lease_agreements = Lease.all
+    else
+      @lease_agreements = current_user.leases
+    end
   end
 
   # specific lease
@@ -24,5 +28,22 @@ class LeaseAgreementsController < ApplicationController
   def update
     lease = Lease.find(params[:id])
     lease.activate
+  end
+
+
+  def sign_tenant
+    @lease = Lease.find(params[:id])
+    @lease.sign_as_tenant
+
+    redirect_to lease_agreement_path(@lease),
+      notice: "You signed the lease."
+  end
+
+  def sign_agent
+    @lease = Lease.find(params[:id])
+    @lease.sign_as_agent
+
+    redirect_to lease_agreement_path(@lease),
+      notice: "Agent signed the lease."
   end
 end

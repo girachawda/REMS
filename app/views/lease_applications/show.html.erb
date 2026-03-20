@@ -1,2 +1,96 @@
-<h1>LeaseApplications#show</h1>
-<p>Find me in app/views/lease_applications/show.html.erb</p>
+<h1>
+  <%= @application.unit.property.name %> - 
+  Unit <%= @application.unit.unit_number %>
+</h1>
+
+<div class="card shadow-sm h-100">
+  <div class="row g-0">
+
+    <!-- LEFT: Image -->
+    <div class="col-md-6">
+      <%= image_tag @application.unit.picture,
+          class: "img-fluid rounded-start img-unit-view",
+          alt: "Unit Image" %>
+    </div>
+
+    <!-- RIGHT: Content -->
+    <div class="col-md-6">
+      <div class="card-body">
+
+        <!-- Unit Info -->
+        <h3 class="card-title">Unit Details</h3>
+        <p><strong>Size:</strong> <%= @application.unit.size %> sq ft</p>
+        <p><strong>Rent:</strong> $<%= @application.unit.rental_rate %>/month</p>
+        <p><strong>Classification:</strong> <%= @application.unit.classification.humanize %></p>
+
+        <hr>
+
+        <!-- Applicant -->
+        <h3 class="card-title">Applicant</h3>
+        <p><strong>Name:</strong> <%= @application.user.name %></p>
+
+        <hr>
+
+        <!-- Lease Info -->
+        <h3 class="card-title">Lease Details</h3>
+        <p><strong>Start Date:</strong> <%= @application.start_date.strftime("%B %d, %Y") %></p>
+        <p><strong>Duration:</strong> <%= @application.duration %> months</p>
+        <p><strong>End Date:</strong> <%= @application.end_date.strftime("%B %d, %Y") %></p>
+        <p><strong>Renewal Policy:</strong> <%= @application.renewal_policy&.humanize || "N/A" %></p>
+
+        <hr>
+
+        <!-- Status -->
+        <p>
+          <strong>Status:</strong>
+          <span class="badge 
+            <%= case @application.status
+                when "pending" then "bg-warning text-dark"
+                when "approved" then "bg-success"
+                when "rejected" then "bg-danger"
+                else "bg-secondary"
+                end %>">
+            <%= @application.status.humanize %>
+          </span>
+        </p>
+
+        <% if @application.status == "rejected" %>
+          <p>
+            <strong>Rejection Reason:</strong>
+            <span>
+                <%= @application.rejection_reason %>
+            </span>
+          </p>
+        <% end %>
+
+        
+
+        <hr>
+
+        <!-- Actions -->
+        <div class="d-flex gap-2 flex-wrap">
+
+          <%= link_to "Back",
+              lease_applications_path,
+              class: "btn btn-outline-secondary btn-sm" %>
+
+          <% if current_user.leasing_agent? && @application.status == "pending" %>
+            <%= button_to "Approve",
+                approve_lease_application_path(@application),
+                method: :patch,
+                class: "btn btn-success btn-sm" %>
+
+            <%= link_to "Reject",
+              reject_lease_application_path(@application),
+              class: "btn btn-danger btn-sm" %>
+          <% end %>
+
+          
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

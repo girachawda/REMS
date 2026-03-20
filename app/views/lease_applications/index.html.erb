@@ -1,22 +1,152 @@
-<h1>LeaseApplications#index</h1>
-<% @applications.each do |app| %>
-  <tr>
-    <td><%= app.unit.unit_number %></td>
-    <td><%= app.user.name %></td>
-    <td><%= app.start_date %></td>
-    <td><%= app.duration %> months</td>
-    <td><%= app.status %></td>
+<% if current_user.leasing_agent? %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="mb-1">Lease Applications</h1>
+      <p class="text-muted mb-0">Review and manage incoming lease applications.</p>
+    </div>
+  </div>
 
-    <td>
-      <%= button_to "Approve",
-          approve_lease_application_path(app),
-          method: :patch,
-          class: "btn btn-success btn-sm" %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
 
-      <%= button_to "Reject",
-          reject_lease_application_path(app),
-          method: :patch,
-          class: "btn btn-danger btn-sm" %>
-    </td>
-  </tr>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+
+          <thead class="table-light">
+            <tr>
+              <th>Tenant</th>
+              <th>Property</th>
+              <th>Unit</th>
+              <th>Start Date</th>
+              <th>Duration</th>
+              <th>Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @applications.each do |app| %>
+
+              <% badge_classes = case app.status
+                when "pending" then "bg-warning text-dark"
+                when "approved" then "bg-success"
+                when "rejected" then "bg-danger"
+                else "bg-secondary"
+                end %>
+
+              <tr>
+                <td>
+                  <div class="fw-semibold"><%= app.user.name %></div>
+                </td>
+
+                <td><%= app.unit.property.name %></td>
+
+                <td><strong>Unit <%= app.unit.unit_number %></strong></td>
+
+                <td><%= app.start_date.strftime("%b %d, %Y") %></td>
+
+                <td><%= app.duration %> months</td>
+
+                <td>
+                  <span class="badge <%= badge_classes %>">
+                    <%= app.status.humanize %>
+                  </span>
+                </td>
+
+                <td class="text-end">
+                  <div class="d-flex justify-content-end gap-2 flex-wrap">
+
+                    <%= link_to "View",
+                        lease_application_path(app),
+                        class: "btn btn-sm btn-outline-primary" %>
+
+                    <% if app.status == "pending" %>
+                      <%= button_to "Approve",
+                          approve_lease_application_path(app),
+                          method: :patch,
+                          form: { class: "d-inline" },
+                          class: "btn btn-sm btn-success" %>
+
+                      <%= link_to "Reject",
+                        reject_lease_application_path(app),
+                        class: "btn btn-danger btn-sm" %>
+                    <% end %>
+
+                  </div>
+                </td>
+              </tr>
+
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+<% else %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="mb-1">Lease Applications</h1>
+      <p class="text-muted mb-0">Track the status of your lease applications.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+
+          <thead class="table-light">
+            <tr>
+              <th>Property</th>
+              <th>Unit</th>
+              <th>Start Date</th>
+              <th>Duration</th>
+              <th>Status</th>
+              <th class="text-end">Details</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @applications.each do |app| %>
+
+              <% badge_classes = case app.status
+                when "pending" then "bg-warning text-dark"
+                when "approved" then "bg-success"
+                when "rejected" then "bg-danger"
+                else "bg-secondary"
+                end %>
+
+              <tr>
+                <td><%= app.unit.property.name %></td>
+
+                <td><strong>Unit <%= app.unit.unit_number %></strong></td>
+
+                <td><%= app.start_date.strftime("%b %d, %Y") %></td>
+
+                <td><%= app.duration %> months</td>
+
+                <td>
+                  <span class="badge <%= badge_classes %>">
+                    <%= app.status.humanize %>
+                  </span>
+                </td>
+
+                <td class="text-end">
+                  <%= link_to "View",
+                      lease_application_path(app),
+                      class: "btn btn-sm btn-outline-primary" %>
+                </td>
+              </tr>
+
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
 <% end %>

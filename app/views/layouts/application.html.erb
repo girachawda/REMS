@@ -45,14 +45,19 @@
                 <%= link_to "Appointments", appointments_path, class: nav_link_class(appointments_path) %>
               </li>
 
+              <li class="nav-item">
+                <%= link_to "Leases", lease_agreements_path, class: nav_link_class(lease_agreements_path) %>
+              </li>
+
               <% if current_user.leasing_agent? %>
                 <li class="nav-item">
                   <%= link_to "My Availability", availabilities_path, class: nav_link_class(availabilities_path) %>
                 </li>
-                <li class="nav-item">
-                  <%= link_to "Rental Applications", lease_applications_path, class: nav_link_class(lease_applications_path) %>
-                </li>
               <% end %>
+              
+              <li class="nav-item">
+                <%= link_to "Rental Applications", lease_applications_path, class: nav_link_class(lease_applications_path) %>
+              </li>
 
               <% if current_user.tenant? %>
                 <li class="nav-item">
@@ -78,11 +83,10 @@
           <ul class="navbar-nav ms-auto">
 
             <% if logged_in? %>
+              
 
               <li class="nav-item">
-                <span class="navbar-text me-3">
-                  Welcome, <%= current_user.name %> (<%= current_user.role.humanize %>)
-                </span>
+                <%= link_to "#{current_user.name} (#{current_user.role.humanize})", accounts_path, class: nav_link_class(accounts_path) %>
               </li>
 
               <li class="nav-item">

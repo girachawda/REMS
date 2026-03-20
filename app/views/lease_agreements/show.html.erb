@@ -48,16 +48,47 @@
 
     <hr>
 
-    <div class="row mt-5">
-      <div class="col text-center">
-        <p>__________________________</p>
-        <p>Tenant Signature</p>
+    <div class="row mt-5 text-center">
+
+      <div class="col">
+        <% if current_user.leasing_agent? %>
+          <% if @lease_agreement.tenant_signed %>
+            <p>Signed by Tenant</p>
+          <% else %>
+            <p>Awaiting Tenant Signature</p>
+          <% end %>
+        <% else %>
+          <% if @lease_agreement.tenant_signed %>
+            <p>Signed by Tenant</p>
+          <% else %>
+            <%= button_to "Sign as Tenant",
+                sign_tenant_lease_agreement_path(@lease_agreement),
+                method: :patch,
+                class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+        
       </div>
 
-      <div class="col text-center">
-        <p>__________________________</p>
-        <p>Agent Signature</p>
+      <div class="col">
+        <% if current_user.leasing_agent? %>
+          <% if @lease_agreement.agent_signed %>
+            <p>Signed by Agent</p>
+          <% else %>
+            <%= button_to "Sign as Agent",
+                sign_agent_lease_agreement_path(@lease_agreement),
+                method: :patch,
+                class: "btn btn-success" %>
+          <% end %>
+        <% else %>
+          <% if @lease_agreement.agent_signed %>
+            <p>Signed by Agent</p>
+          <% else %>
+            <p>Awaiting Agent Signature</p>
+          <% end %>
+        <% end %>
       </div>
+
     </div>
 
   </div>

@@ -1,7 +1,11 @@
 class LeaseApplicationsController < ApplicationController
   # this is to display all pending lease agreements
   def index
-    @applications = RentalApplication.pending
+    if current_user.leasing_agent?
+      @applications = RentalApplication.pending
+    else
+      @applications = current_user.rental_applications
+    end
   end
 
   def show
@@ -59,7 +63,13 @@ class LeaseApplicationsController < ApplicationController
 
   # also self explanatory
   def reject
-    rental_application = RentalApplication.find(params[:id])
-    rental_application.reject(params[:rejection_reason])
+    @application = RentalApplication.find(params[:id])
+
+    if request.patch?
+      @application.reject(params[:rental_application][:rejection_reason])
+
+      redirect_to lease_applications_path,
+        notice: "Application rejected."
+    end
   end
 end
