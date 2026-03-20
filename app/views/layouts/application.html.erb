@@ -76,6 +76,13 @@
                   <%= link_to "Payment", payments_path, class: nav_link_class(payments_path) %>
                 </li>
               <% end %>
+
+              <% if current_user %>
+                <li class="nav-item">
+                  <%= link_to "Maintenance", maintenance_requests_path, class: "nav-link" %>
+                </li>
+              <% end %>
+    
             <% end %>
 
           </ul>

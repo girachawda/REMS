@@ -17,7 +17,6 @@
               <th>Discount</th>
               <th>Bank Transfer #</th>
               <th>Balance</th>
-              <th class="text-end">Actions</th>
             </tr>
           </thead>
 
@@ -52,12 +51,6 @@
 
                 <td class="<%= balance_class %>">
                   $<%= sprintf("%.2f", account.balance.to_f) %>
-                </td>
-
-                <td class="text-end">
-                  <%= link_to "View",
-                      account_path(account),
-                      class: "btn btn-sm btn-outline-primary" %>
                 </td>
               </tr>
             <% end %>

@@ -1,2 +1,58 @@
-<h1>MaintenanceRequests#new</h1>
-<p>Find me in app/views/maintenance_requests/new.html.erb</p>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="mb-4 text-center">
+      <h1 class="mb-1">Submit Maintenance Request</h1>
+      <p class="text-muted mb-0">Report an issue to management.</p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <%= form_with model: @request, url: maintenance_requests_path, local: true do |f| %>
+
+          <% if @request.errors.any? %>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <% @request.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= f.label :unit_id, "Unit", class: "form-label" %>
+            <%= f.collection_select :unit_id,
+                current_user.leases.includes(:unit).map(&:unit),
+                :id,
+                :unit_number,
+                { prompt: "Select your unit" },
+                { class: "form-select" } %>
+          </div>
+
+          <div class="form-check mb-3">
+            <%= f.check_box :is_emergency, class: "form-check-input" %>
+            <%= f.label :is_emergency, "Emergency request", class: "form-check-label" %>
+          </div>
+
+          <div class="form-check mb-3">
+            <%= f.check_box :is_routine, class: "form-check-input" %>
+            <%= f.label :is_routine, "Routine request", class: "form-check-label" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :priority, class: "form-label" %>
+            <%= f.select :priority,
+                [["Low", 0], ["Normal", 1], ["High", 2], ["Emergency", 3]],
+                { prompt: "Select priority" },
+                { class: "form-select" } %>
+          </div>
+
+          <div class="d-grid">
+            <%= f.submit "Submit Request", class: "btn btn-primary" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
