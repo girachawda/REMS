@@ -16,8 +16,32 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create appointment" do
+  test "TC-0012 - Booking Appointment - Available Slot" do
     assert_difference("Appointment.count") do
+      post appointments_path, params: {
+        appointment: {
+          unit_id: units(:one).id,
+          availability_id: availabilities(:one).id,
+          scheduled_at: 1.day.from_now
+        }
+      }
+    end
+    assert_redirected_to appointments_path
+  end
+
+  test "TC-0016 - Booking Appointment - Double Booked Slot" do
+    assert_difference("Appointment.count") do
+      post appointments_path, params: {
+        appointment: {
+          unit_id: units(:one).id,
+          availability_id: availabilities(:one).id,
+          scheduled_at: 1.day.from_now
+        }
+      }
+    end
+    assert_redirected_to appointments_path
+
+    assert_same("Appointment.count") do
       post appointments_path, params: {
         appointment: {
           unit_id: units(:one).id,

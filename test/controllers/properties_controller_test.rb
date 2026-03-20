@@ -1,7 +1,7 @@
 require "test_helper"
 
 class PropertiesControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
+  test "TC005 - View Property Inventory" do
     get properties_path
     assert_response :success
   end

@@ -16,7 +16,7 @@ class AvailabilitiesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create availability" do
+  test "TC-0013 - Input Viewing Availability" do
     assert_difference("Availability.count") do
       post availabilities_path, params: {
         availability: {
