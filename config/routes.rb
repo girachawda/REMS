@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :units, only: [ :show, :new, :create, :update ]
   end
 
+  resources :units
+
   # Agent availability
   resources :availabilities, only: [ :index, :new, :create ]
 
