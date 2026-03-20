@@ -1,7 +1,11 @@
 class LeaseAgreementsController < ApplicationController
   # all leases (for staff members/admin)
   def index
-    @lease_agreements = Lease.all
+    if current_user.leasing_agent?
+      @lease_agreements = Lease.all
+    else
+      @lease_agreements = current_user.leases
+    end
   end
 
   # specific lease
@@ -20,30 +24,26 @@ class LeaseAgreementsController < ApplicationController
     end
   end
 
-  # for the lease form
-  def new
-    @lease_agreement = Lease.new
-  end
-
-  # this generates the lease agreement
-  def create
-    rental_application = RentalApplication.find(params[:id])
-    if rental_application.status == "approved"
-      lease = Lease.new(
-        user: rental_application.user,
-        unit: rental_application.unit,
-        start_date: rental_application.start_date,
-        end_date: rental_application.end_date,
-        duration: rental_application.duration,
-        renewal_policy: params[:renewal_policy]
-      )
-      lease.save!
-    end
-  end
-
   # activate
   def update
     lease = Lease.find(params[:id])
     lease.activate
+  end
+
+
+  def sign_tenant
+    @lease = Lease.find(params[:id])
+    @lease.sign_as_tenant
+
+    redirect_to lease_agreement_path(@lease),
+      notice: "You signed the lease."
+  end
+
+  def sign_agent
+    @lease = Lease.find(params[:id])
+    @lease.sign_as_agent
+
+    redirect_to lease_agreement_path(@lease),
+      notice: "Agent signed the lease."
   end
 end

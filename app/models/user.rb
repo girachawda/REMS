@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_one :account
   has_many :leases
+  has_many :rental_applications
   has_many :availabilities, dependent: :destroy
   has_many :appointments, dependent: :destroy
 

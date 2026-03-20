@@ -4,7 +4,7 @@
 <div class="card shadow-sm h-100">
   <div class="row g-0">
     <div class="col-md-6">
-      <%= image_tag "https://images.unsplash.com/photo-1481437156560-3205f6a55735?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw0fHxtYWxsfGVufDB8fHx8MTc3Mzc5NTIyMXww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80", class: "img-fluid rounded-start", alt: "Property Image" %>
+      <%= image_tag @unit.picture, class: "img-fluid rounded-start img-unit-view", alt: "Property Image" %>
     </div>
     <div class="col-md-6">
       <div class="card-body">
@@ -32,6 +32,10 @@
           <h2 class="card-title">Schedule a Viewing</h2>
           <%= link_to "Book an Appointment", new_appointment_path(unit_id: @unit.id),
             class: "btn btn-sm btn-primary" %>
+          <h2 class="card-title">Submit a Lease Application</h2>
+          <%= link_to "Apply for Lease",
+            new_lease_application_path(unit_id: @unit.id),
+            class: "btn btn-success btn-sm" %>
           
         <% elsif !logged_in? %>
           <p><%= link_to "Login", login_path %> to schedule a viewing</p>

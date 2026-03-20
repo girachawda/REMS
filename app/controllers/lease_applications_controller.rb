@@ -1,7 +1,11 @@
 class LeaseApplicationsController < ApplicationController
   # this is to display all pending lease agreements
   def index
-    @applications = RentalApplication.pending
+    if current_user.leasing_agent?
+      @applications = RentalApplication.pending
+    else
+      @applications = current_user.rental_applications
+    end
   end
 
   def show
@@ -10,31 +14,62 @@ class LeaseApplicationsController < ApplicationController
 
   # this is to display the form for application
   def new
-    @application = RentalApplication.new
+    @unit = Unit.find(params[:unit_id])
+    @application = RentalApplication.new(unit: @unit)
   end
 
   # this creates the application
   def create
-    rental_application = RentalApplication.new(
+    @application = RentalApplication.new(
       unit_id: params[:rental_application][:unit_id],
       start_date: params[:rental_application][:start_date],
-      end_date: params[:rental_application][:end_date],
       duration: params[:rental_application][:duration],
+      renewal_policy: params[:rental_application][:renewal_policy],
       user: current_user,
       status: "pending"
     )
-    rental_application.save!
+
+    if @application.start_date.present? && @application.duration.present?
+      @application.end_date = @application.start_date + @application.duration.months
+    end
+
+    if @application.save
+      redirect_to lease_application_path(@application), notice: "Application submitted successfully."
+    else
+      @unit = Unit.find(@application.unit_id)
+      render :new, status: :unprocessable_entity
+    end
   end
 
   # self explanatory lol
   def approve
-    rental_application = RentalApplication.find(params[:id])
-    rental_application.approve
+    @application = RentalApplication.find(params[:id])
+    @application.update!(status: "approved")
+
+    @lease = Lease.create!(
+      user: @application.user,
+      unit: @application.unit,
+      start_date: @application.start_date,
+      end_date: @application.end_date,
+      duration: @application.duration,
+      renewal_policy: @application.renewal_policy
+    )
+
+    @application.unit.update!(status: "occupied")
+
+    redirect_to lease_agreement_path(@lease),
+      notice: "Application approved and lease created."
   end
 
   # also self explanatory
   def reject
-    rental_application = RentalApplication.find(params[:id])
-    rental_application.reject(params[:rejection_reason])
+    @application = RentalApplication.find(params[:id])
+
+    if request.patch?
+      @application.reject(params[:rental_application][:rejection_reason])
+
+      redirect_to lease_applications_path,
+        notice: "Application rejected."
+    end
   end
 end

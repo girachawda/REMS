@@ -44,7 +44,12 @@ body {
   text-align: center;
 }
 
-.card img {
+.img-unit-view {
   height: 100%;
+  object-fit: cover;
+}
+
+.img-gallery {
+  height: 300px;
   object-fit: cover;
 }

@@ -58,7 +58,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "101") do |u|
   u.classification = :tier_1
   u.status = :available
   u.intended_business_purpose = "dining"
-  u.picture = "https://unsplash.com/photos/photo-of-dining-table-and-chairs-inside-room-eHD8Y1Znfpk"
+  u.picture = "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxfHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
@@ -67,7 +67,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "102") do |u|
   u.classification = :tier_2
   u.status = :available
   u.intended_business_purpose = "dining"
-  u.picture = "https://unsplash.com/photos/people-sitting-on-chair-in-restaurant-p85-MG66GRY"
+  u.picture = "https://images.unsplash.com/photo-1571974448718-ac26a9af7d8b?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwyfHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
@@ -76,7 +76,7 @@ Unit.find_or_create_by!(property: prop1, unit_number: "103") do |u|
   u.classification = :tier_1
   u.status = :occupied
   u.intended_business_purpose = "retail"
-  u.picture = "https://unsplash.com/photos/white-metal-shelf-with-food-packs-QnMeRW36-zY"
+  u.picture = "https://images.unsplash.com/photo-1464869372688-a93d806be852?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw2fHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
@@ -85,7 +85,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "201") do |u|
   u.classification = :tier_2
   u.status = :available
   u.intended_business_purpose = "office"
-  u.picture = "https://unsplash.com/photos/man-and-woman-sitting-on-table-U2BI3GMnSSE"
+  u.picture = "https://images.unsplash.com/photo-1580554430120-94cfcb3adf25?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw0fHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
@@ -94,7 +94,7 @@ Unit.find_or_create_by!(property: prop2, unit_number: "202") do |u|
   u.classification = :tier_3
   u.status = :available
   u.intended_business_purpose = "office"
-  u.picture = "https://unsplash.com/photos/hallway-between-glass-panel-doors-yWwob8kwOCk"
+  u.picture = "https://images.unsplash.com/photo-1515111057773-363c20156f04?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw3fHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
@@ -103,7 +103,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "301") do |u|
   u.classification = :tier_1
   u.status = :available
   u.intended_business_purpose = "retail"
-  u.picture = "https://unsplash.com/photos/black-trike-parked-near-soter-F6-U5fGAOik"
+  u.picture = "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxfHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
@@ -112,7 +112,7 @@ Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
   u.classification = :tier_4
   u.status = :maintenance
   u.intended_business_purpose = "dining"
-  u.picture = "https://unsplash.com/photos/brown-and-gray-concrete-store-nmpW_WwwVSc"
+  u.picture = "https://images.unsplash.com/photo-1687114835860-4c22e258781f?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw1fHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
 # Create some agent availability
