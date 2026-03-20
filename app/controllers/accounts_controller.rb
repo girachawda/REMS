@@ -30,13 +30,13 @@ class AccountsController < ApplicationController
       end
 
       last_utility_invoice = @account.invoices.where(lease: lease, charge_type: "utility").order(due_date: :desc).first
-      last_due_date = last_rent_invoice&.due_date || lease.start_date.end_of_month
+      last_due_date = last_utility_invoice&.due_date || lease.start_date.end_of_month
       today = Date.current
 
       while today > last_due_date do
-        water_charges = lease.unit.utility.water_charges
-        electricity_charges = lease.unit.utility.electricity_charges
-        waste_management_charges = lease.unit.utility.waste_management_charges
+        water_charges = lease.utility.water_charges
+        electricity_charges = lease.utility.electricity_charges
+        waste_management_charges = lease.utility.waste_management_charges
 
         invoice = @account.invoices.create(
           lease: lease,
@@ -94,7 +94,20 @@ class AccountsController < ApplicationController
       end
     end
 
-    @monthly_invoices = @account.invoices.where(lease: lease, created_at: Date.current.last_month.beginning_of_month..Date.current.last_month.end_of_month).order(due_date: :desc)
+  invoice_dates = @account.invoices.where.not(due_date: nil).order(due_date: :desc).pluck(:due_date)
+  @available_months = invoice_dates.map { |date| date.strftime("%Y-%m") }.uniq
+
+  if params[:month].present?
+    @selected_month = Date.strptime(params[:month], "%Y-%m")
+  elsif invoice_dates.any?
+    @selected_month = invoice_dates.first.beginning_of_month
+  else
+    @selected_month = Date.current.beginning_of_month
+  end
+
+  @monthly_invoices = @account.invoices.where(
+    due_date: @selected_month.beginning_of_month..@selected_month.end_of_month
+  ).order(due_date: :desc)
   end
 
   # for payment cycle (show variable rate in front end), and bank transfer info

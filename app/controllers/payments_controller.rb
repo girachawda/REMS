@@ -10,12 +10,17 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    payment = current_user.account.payments.build(
-      amount: params[:amount],
-      method: params[:method],
+    @payment = current_user.account.payments.build(
+      amount: params[:payment][:amount],
+      method: params[:payment][:method],
       paid_at: Time.current
     )
-    payment.save!
-    redirect_to account_path, notice: "Payment successful"
+
+    if @payment.save
+      redirect_to account_path(current_user.account), notice: "Payment successful"
+    else
+      render :new, status: :unprocessable_entity
+    end
+
   end
 end

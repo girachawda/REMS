@@ -1,2 +1,124 @@
-<h1>MaintenanceRequests#index</h1>
-<p>Find me in app/views/maintenance_requests/index.html.erb</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="mb-1">Maintenance Requests</h1>
+    <p class="text-muted mb-0">
+      Emergency requests are prioritized first. Routine requests are handled in submission order.
+    </p>
+  </div>
+
+  <% if current_user.tenant? %>
+    <%= link_to "Submit Request", new_maintenance_request_path, class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<% if @maintenance_requests.any? %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Unit</th>
+            <th>Tenant</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Tenant Caused</th>
+            <th>Cost</th>
+            <th>Created</th>
+            <% unless current_user.tenant? %>
+              <th style="width: 280px;">Actions</th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @maintenance_requests.each do |request| %>
+            <tr>
+              <td class="fw-semibold">#<%= request.id %></td>
+              <td><%= request.unit.unit_number %></td>
+              <td><%= request.user.name %></td>
+
+              <td>
+                <% if request.is_emergency %>
+                  <span class="badge bg-danger">Emergency</span>
+                <% else %>
+                  <span class="badge bg-secondary">Routine</span>
+                <% end %>
+              </td>
+
+              <td>
+                <span class="badge <%= request.status == 'closed' ? 'bg-success' : 'bg-light text-dark border' %>">
+                  <%= request.status.to_s.titleize %>
+                </span>
+              </td>
+
+              <td>
+                <span class="badge <%= request.tenant_caused ? 'bg-warning text-dark' : 'bg-light text-dark border' %>">
+                  <%= request.tenant_caused ? "Yes" : "No" %>
+                </span>
+              </td>
+
+              <td>
+                <% if request.maintenance_cost.present? %>
+                  <span class="fw-semibold">$<%= sprintf("%.2f", request.maintenance_cost) %></span>
+                <% else %>
+                  <span class="text-muted">—</span>
+                <% end %>
+              </td>
+
+              <td class="text-muted small">
+                <%= request.created_at.strftime("%Y-%m-%d %I:%M %p") %>
+              </td>
+
+              <% unless current_user.tenant? %>
+                <td>
+                  <% if request.status == "closed" %>
+                    <div class="text-muted small">
+                      Closed
+                    </div>
+                  <% else %>
+                    <%= form_with url: update_cost_maintenance_request_path(request), method: :patch, local: true do %>
+                      <div class="border rounded-3 p-2 bg-light-subtle">
+
+                        <div class="form-check mb-2">
+                          <%= check_box_tag :tenant_caused, "true", request.tenant_caused, class: "form-check-input", id: "tenant_caused_#{request.id}" %>
+                          <%= label_tag "tenant_caused_#{request.id}", "Tenant caused", class: "form-check-label small" %>
+                        </div>
+
+                        <div class="input-group input-group-sm mb-2">
+                          <span class="input-group-text">$</span>
+                          <%= number_field_tag :maintenance_cost,
+                              request.maintenance_cost,
+                              step: 0.01,
+                              class: "form-control",
+                              placeholder: "Enter cost" %>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                          <%= submit_tag "Update", class: "btn btn-sm btn-outline-primary w-100" %>
+                        </div>
+
+                      </div>
+                    <% end %>
+
+                    <div class="mt-2">
+                      <%= button_to "Close",
+                          close_maintenance_request_path(request),
+                          method: :patch,
+                          class: "btn btn-sm btn-outline-success w-100" %>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    No maintenance requests found.
+  </div>
+<% end %>

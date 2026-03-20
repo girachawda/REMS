@@ -1,2 +1,23 @@
-<h1>MaintenanceRequests#create</h1>
-<p>Find me in app/views/maintenance_requests/create.html.erb</p>
+<div class="row justify-content-center">
+  <div class="col-md-6 text-center">
+
+    <div class="card shadow-sm border-0 mt-5">
+      <div class="card-body p-5">
+
+        <h2 class="mb-3">Maintenance Request Submitted</h2>
+
+        <p class="text-muted">
+          Your maintenance request has been successfully logged and forwarded to management.
+        </p>
+
+        <div class="mt-4">
+          <%= link_to "View All Requests",
+              maintenance_requests_path,
+              class: "btn btn-primary" %>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :leases
   has_many :availabilities, dependent: :destroy
   has_many :appointments, dependent: :destroy
+  has_many :maintenance_requests
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }

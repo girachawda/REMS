@@ -1,30 +1,38 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h1 class="mb-1">Account Details</h1>
-    <p class="text-muted mb-0">Review account information and outstanding balance.</p>
+    <h1 class="mb-1">My Account</h1>
+    <p class="text-muted mb-0">Review your account information and outstanding balance.</p>
   </div>
-
-  <%= link_to "Back to Accounts", accounts_path, class: "btn btn-outline-secondary" %>
 </div>
 
-<div class="card shadow-sm border-0">
+<div class="card shadow-sm border-0 mb-4">
   <div class="card-body">
     <div class="row mb-3">
-      <div class="col-sm-4 text-muted">Tenant</div>
+      <div class="col-sm-4 text-muted">Name</div>
+      <div class="col-sm-8 fw-semibold">
+        <%= @account.user&.name || "—" %>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-sm-4 text-muted">Email</div>
       <div class="col-sm-8">
-        <div class="fw-semibold"><%= @account.user.name %></div>
-        <small class="text-muted"><%= @account.user.email %></small>
+        <%= @account.user&.email || "—" %>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-sm-4 text-muted">Payment Cycle</div>
-      <div class="col-sm-8 text-capitalize"><%= @account.payment_cycle %></div>
+      <div class="col-sm-8 text-capitalize">
+        <%= @account.payment_cycle.present? ? @account.payment_cycle : "—" %>
+      </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-sm-4 text-muted">Discount</div>
-      <div class="col-sm-8"><%= @account.discount_percent.to_f %>%</div>
+      <div class="col-sm-8">
+        <%= @account.discount_percent.to_f %>%
+      </div>
     </div>
 
     <div class="row mb-3">
@@ -36,7 +44,73 @@
 
     <div class="row mb-0">
       <div class="col-sm-4 text-muted">Current Balance</div>
-      <div class="col-sm-8 fw-semibold">$<%= sprintf("%.2f", @account.balance.to_f) %></div>
+      <div class="col-sm-8 fw-semibold <%= @account.balance.to_f > 0 ? 'text-danger' : 'text-success' %>">
+        <%= number_to_currency(@account.balance) %>
+      </div>
     </div>
+
+    <div class="mt-4 d-flex gap-2 flex-wrap">
+      <%= link_to "Make a Payment", new_payment_path, class: "btn btn-primary" %>
+      <%= link_to "View Invoices", invoices_path, class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+      <div>
+        <h2 class="h5 mb-1">Monthly Invoices</h2>
+        <p class="text-muted mb-0">
+          Showing invoices for <%= @selected_month.strftime("%B %Y") if @selected_month.present? %>
+        </p>
+      </div>
+
+      <% if @available_months.present? %>
+        <%= form_with url: account_path(@account), method: :get, local: true do %>
+          <div class="d-flex align-items-center gap-2">
+            <%= label_tag :month, "Month", class: "form-label mb-0" %>
+            <%= select_tag :month,
+              options_for_select(
+                @available_months.map { |month| [Date.strptime(month, "%Y-%m").strftime("%B %Y"), month] },
+                @selected_month.strftime("%Y-%m")
+              ),
+              class: "form-select",
+              onchange: "this.form.submit();" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @monthly_invoices.present? %>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Due Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @monthly_invoices.each do |invoice| %>
+              <tr>
+                <td class="text-capitalize"><%= invoice.charge_type %></td>
+                <td><%= invoice.due_date.strftime("%B %d, %Y") if invoice.due_date.present? %></td>
+                <td><%= number_to_currency(invoice.total_charge) %></td>
+                <td>
+                  <span class="badge <%= invoice.status == 'paid' ? 'bg-success' : invoice.status == 'overdue' ? 'bg-danger' : 'bg-warning text-dark' %>">
+                    <%= invoice.status.capitalize %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-muted mb-0">No invoices available for this month.</p>
+    <% end %>
   </div>
 </div>
