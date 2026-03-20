@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     member do
       patch :mark_tenant_caused
       patch :close
+      patch :update_cost
     end
   end
 
@@ -74,3 +75,5 @@ Rails.application.routes.draw do
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 end
+
+

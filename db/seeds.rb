@@ -191,7 +191,8 @@ Lease.find_or_create_by!(
   start_date: Date.new(2026, 01, 01),
   end_date: Date.new(2026, 12, 31),
   user_id: 1,
-  unit_id: 1
+  unit_id: 1,
+  active: true
   )
 
   Lease.find_or_create_by!(
@@ -200,7 +201,8 @@ Lease.find_or_create_by!(
   start_date: Date.new(2026, 01, 01),
   end_date: Date.new(2026, 12, 31),
   user_id: 1,
-  unit_id: 2
+  unit_id: 2,
+  active: true
   )
 
   Lease.find_or_create_by!(
@@ -209,7 +211,8 @@ Lease.find_or_create_by!(
   start_date: Date.new(2026, 01, 01),
   end_date: Date.new(2026, 12, 31),
   user_id: 2,
-  unit_id: 3
+  unit_id: 3,
+  active: true
   )
 
 Utility.find_or_create_by!(
@@ -250,7 +253,7 @@ Utility.find_or_create_by!(
     tenant_caused: false,
     unit_id: 1,
     user_id: 1,
-    status: "submitted",
+    status: "closed",
     maintenance_cost: 134.21
   )
 

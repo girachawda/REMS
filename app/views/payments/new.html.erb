@@ -1,2 +1,70 @@
-<h1>Payments#new</h1>
-<p>Find me in app/views/payments/new.html.erb</p>
+<div class="text-center mb-4">
+  <div>
+    <h1 class="mb-1">Make a Payment</h1>
+    <p class="text-muted mb-0">Submit a payment toward your account balance.</p>
+  </div>
+</div>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-lg-6 col-md-8">
+
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+
+        <div class="mb-4">
+          <strong>Current Balance:</strong>
+          <span class="fw-semibold <%= current_user.account.balance.to_f > 0 ? 'text-danger' : 'text-success' %>">
+            <%= number_to_currency(current_user.account.balance) %>
+          </span>
+        </div>
+
+        <%= form_with model: @payment, local: true, html: { novalidate: true } do |form| %>
+
+          <div class="mb-3">
+            <%= form.label :amount, "Payment Amount", class: "form-label" %>
+
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+
+              <%= form.number_field :amount,
+                  step: 0.01,
+                  min: 0.01,
+                  class: "form-control #{'is-invalid' if @payment.errors[:amount].any?}",
+                  value: current_user.account.balance.to_f > 0 ? current_user.account.balance : nil,
+                  placeholder: "Enter amount" %>
+            </div>
+
+            <% @payment.errors[:amount].each do |error| %>
+              <div class="invalid-feedback d-block"><%= error %></div>
+            <% end %>
+          </div>
+
+          <!-- Method -->
+          <div class="mb-3">
+            <%= form.label :method, "Payment Method", class: "form-label" %>
+
+            <%= form.select :method,
+                [["Bank Transfer", "bank_transfer"], ["Automatic", "automatic"]],
+                { prompt: "Select a payment method" },
+                class: "form-select #{'is-invalid' if @payment.errors[:method].any?}" %>
+
+            <% @payment.errors[:method].each do |error| %>
+              <div class="invalid-feedback d-block"><%= error %></div>
+            <% end %>
+          </div>
+
+          <div class="mt-4 d-flex gap-2">
+            <%= form.submit "Submit Payment", class: "btn btn-primary" %>
+
+            <%= link_to "Cancel",
+                account_path(current_user.account),
+                class: "btn btn-outline-secondary" %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+</div>
