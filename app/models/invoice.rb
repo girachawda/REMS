@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
 
   # When we create an invoice, add the charge to their account balance
   after_create :apply_to_balance
-  
+
   validates :charge_type, inclusion: { in: %w[utility rent maintenance] }
 
   # Add invoice total to the account balance (what they owe)
