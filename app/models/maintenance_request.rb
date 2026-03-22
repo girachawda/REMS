@@ -37,5 +37,4 @@ class MaintenanceRequest < ApplicationRecord
     status: "unpaid"
   )
 end
-    
 end

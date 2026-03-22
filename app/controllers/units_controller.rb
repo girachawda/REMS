@@ -71,5 +71,4 @@ class UnitsController < ApplicationController
 
     redirect_to properties_path, notice: "Unit deleted successfully."
   end
-
 end

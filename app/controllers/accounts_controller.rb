@@ -125,7 +125,7 @@ class AccountsController < ApplicationController
 
     invoice_dates = @account.invoices.where.not(due_date: nil).order(due_date: :desc).pluck(:due_date)
     @available_months = invoice_dates.map { |date| date.strftime("%Y-%m") }.uniq
-  
+
     if params[:month].present?
       @selected_month = Date.strptime(params[:month], "%Y-%m")
     elsif invoice_dates.any?
@@ -133,7 +133,7 @@ class AccountsController < ApplicationController
     else
       @selected_month = Date.current.beginning_of_month
     end
-  
+
     @monthly_invoices = @account.invoices.where(
       due_date: @selected_month.beginning_of_month..@selected_month.end_of_month
     ).order(due_date: :desc)

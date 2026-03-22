@@ -10,7 +10,7 @@ class Payment < ApplicationRecord
 
   validates :method,
     presence: { message: "Please select a payment method." }
-    
+
   def apply_to_balance
     account.update_column(:balance, account.balance.to_f - amount.to_f)
   end

@@ -230,14 +230,14 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
     assert_operator elapsed, :<, 3.0
   end
 
-  # I was hoping to actually write/read concurrently in this test, but SQLite (what Ruby/Rails uses locally) doesn’t support it. 
-  # So even if I split this into multiple processes, it will still run them in order. 
+  # I was hoping to actually write/read concurrently in this test, but SQLite (what Ruby/Rails uses locally) doesn’t support it.
+  # So even if I split this into multiple processes, it will still run them in order.
   # This just does 3 sequential booking and agreement creations as fast as possible and asserts time is under 3 seconds.
   test "TC-067 - Load testing" do
     availability = availabilities(:one)
     unit = units(:one)
-    tenants = [users(:one), users(:cycle_monthly_user), users(:tracking_user)]
-    agents = [users(:two), users(:agent_three), users(:agent_four)]
+    tenants = [ users(:one), users(:cycle_monthly_user), users(:tracking_user) ]
+    agents = [ users(:two), users(:agent_three), users(:agent_four) ]
     applications = [
       rental_applications(:one),
       rental_applications(:two),
@@ -321,4 +321,3 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
     assert_operator elapsed, :<, 10.0
   end
 end
-

@@ -5,7 +5,7 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     post login_path, params: { email: @user.email, password: "password" }
   end
-  
+
   test "TC-005 - View Property Inventory" do
     admin = users(:admin)
     post login_path, params: { email: admin.email, password: "password" }
