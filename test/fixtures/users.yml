@@ -59,3 +59,9 @@ agent_four:
   email: agent4@example.com
   password_digest: <%= BCrypt::Password.create('password') %>
   role: 1
+
+overdue_alert_user:
+  name: Overdue Alert User
+  email: overdue_alert@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0

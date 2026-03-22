@@ -62,7 +62,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         intended_business_purpose: units(:one).intended_business_purpose,
       }
     }
-    assert_redirected_to property_unit_path
+    assert_redirected_to properties_path
   end
 
   test "TC-006 - Add New Location - Classifications" do

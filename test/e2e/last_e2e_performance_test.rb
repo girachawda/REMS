@@ -126,11 +126,9 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
   end
 
   test "TC-044 - Lease invoicing flow" do
-    tenant = users(:one)
-    login_as(tenant)
-    account = tenant.reload.account
-    overdue_invoice = invoices(:overdue_unpaid_rent_invoice)
-    overdue_invoice.update_column(:account_id, account.id)
+    login_as(users(:overdue_alert_user))
+    account = accounts(:overdue_alert_account)
+    overdue_invoice = invoices(:overdue_alert_invoice)
 
     get account_path(account)
     assert_response :success
@@ -140,9 +138,10 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
     assert_difference("Payment.count", +1) do
       Payment.create!(
         account: account,
-        amount: 1000,
+        amount: account.reload.balance,
         method: "card",
-        paid_at: Time.current
+        paid_at: Time.current,
+        lease: overdue_invoice.lease
       )
     end
 

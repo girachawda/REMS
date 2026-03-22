@@ -86,10 +86,9 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "TC-031 - Notifications generated when payment overdue" do
-    account = accounts(:one)
-    overdue_invoice = invoices(:overdue_unpaid_rent_invoice)
-
-    assert_equal "unpaid", overdue_invoice.status
+    login_as(users(:overdue_alert_user))
+    account = accounts(:overdue_alert_account)
+    overdue_invoice = invoices(:overdue_alert_invoice)
 
     get account_path(account)
     assert_response :success

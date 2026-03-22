@@ -27,6 +27,15 @@ inactive:
   end_date: 2026-03-14
   active: false
 
+overdue_alert_lease:
+  user: overdue_alert_user
+  unit: overdue_alert_unit
+  duration: 12
+  renewal_policy: automatic
+  start_date: 2026-01-01
+  end_date: 2026-12-31
+  active: false
+
 cycle_monthly_lease:
   user: cycle_monthly_user
   unit: one

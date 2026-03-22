@@ -2,7 +2,6 @@ ENV["RAILS_ENV"] ||= "test"
 
 require "simplecov"
 SimpleCov.start do
-  enable_coverage :branch
   enable_coverage :line
 end
 

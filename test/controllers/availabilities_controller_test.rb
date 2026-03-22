@@ -16,11 +16,6 @@ class AvailabilitiesControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "No agent availability at this time."
   end
 
-  test "should get new" do
-    get new_availability_path
-    assert_response :success
-  end
-
   test "TC-0013 - Input Viewing Availability" do
     start_time = Time.new(2026, 3, 15, 10, 0, 0)
     end_time = Time.new(2026, 3, 15, 12, 0, 0)

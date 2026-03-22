@@ -62,10 +62,10 @@ upcoming_unpaid_rent_invoice:
   charge_type: rent
   status: unpaid
 
-overdue_unpaid_rent_invoice:
-  account: one
-  lease: one
+overdue_alert_invoice:
+  account: overdue_alert_account
+  lease: overdue_alert_lease
   total_charge: 1.0
-  due_date: 2025-01-01
+  due_date: 2025-06-15
   charge_type: rent
   status: unpaid

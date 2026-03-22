@@ -48,3 +48,10 @@ tracking_account:
   bank_transfer_number: 1
   discount_percent: 0.0
   user: tracking_user
+
+overdue_alert_account:
+  balance: 5000.0
+  payment_cycle: monthly
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: overdue_alert_user

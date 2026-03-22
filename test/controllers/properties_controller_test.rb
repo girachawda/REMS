@@ -15,14 +15,17 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_includes response.body, "Property Portfolio"
-    assert_includes response.body, "Results (2)"
+    assert_includes response.body, "Results (3)"
 
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_includes response.body, "Unit 201 - Second Property"
 
     assert_includes response.body, "1000.0 sq ft"
+    assert_includes response.body, "800.0 sq ft"
     assert_includes response.body, "1500.0 sq ft"
     assert_includes response.body, "$2000.0/month"
+    assert_includes response.body, "$1000.0/month"
     assert_includes response.body, "$2500.0/month"
 
     assert_includes response.body, "Tier 1"
@@ -44,24 +47,27 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
   test "TC-008 - Results Page Lists Search Results" do
     get properties_path, params: { name: "Test" }
     assert_response :success
-    assert_includes response.body, "Results (1)"
+    assert_includes response.body, "Results (2)"
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_not_includes response.body, "Unit 201 - Second Property"
   end
 
   test "TC-009 - Search for Location with No Filter" do
     get properties_path
     assert_response :success
-    assert_includes response.body, "Results (2)"
+    assert_includes response.body, "Results (3)"
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_includes response.body, "Unit 201 - Second Property"
   end
 
   test "TC-010 - Search for Location with Filter" do
     get properties_path, params: { location: "Test" }
     assert_response :success
-    assert_includes response.body, "Results (1)"
+    assert_includes response.body, "Results (2)"
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_not_includes response.body, "Unit 201 - Second Property"
 
     get properties_path, params: { min_size: 1200 }
@@ -72,8 +78,9 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
 
     get properties_path, params: { max_rate: 2200 }
     assert_response :success
-    assert_includes response.body, "Results (1)"
+    assert_includes response.body, "Results (2)"
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_not_includes response.body, "Unit 201 - Second Property"
 
     get properties_path, params: { classification: "tier_2" }
@@ -84,8 +91,9 @@ class PropertiesControllerTest < ActionDispatch::IntegrationTest
 
     get properties_path, params: { status: "available" }
     assert_response :success
-    assert_includes response.body, "Results (1)"
+    assert_includes response.body, "Results (2)"
     assert_includes response.body, "Unit 101 - Test Plaza"
+    assert_includes response.body, "Unit 209 - Test Plaza"
     assert_not_includes response.body, "Unit 201 - Second Property"
   end
 
