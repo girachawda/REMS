@@ -27,24 +27,24 @@
                     :id,
                     :name,
                     { prompt: "Select a property" },
-                    class: "form-select" %>
+                    { class: "form-select", required: true } %>
               </div>
 
               <div class="col-md-6 mb-3">
                 <%= form.label :unit_number, class: "form-label" %>
-                <%= form.text_field :unit_number, class: "form-control" %>
+                <%= form.text_field :unit_number, class: "form-control", required: true %>
               </div>
             </div>
 
             <div class="row">
               <div class="col-md-6 mb-3">
                 <%= form.label :size, class: "form-label" %>
-                <%= form.number_field :size, class: "form-control" %>
+                <%= form.number_field :size, class: "form-control", required: true %>
               </div>
 
               <div class="col-md-6 mb-3">
                 <%= form.label :rental_rate, class: "form-label" %>
-                <%= form.number_field :rental_rate, class: "form-control" %>
+                <%= form.number_field :rental_rate, class: "form-control", required: true %>
               </div>
             </div>
 
@@ -54,7 +54,7 @@
                 <%= form.select :classification,
                     Unit.classifications.keys.map { |k| [k.humanize, k] },
                     { prompt: "Select classification" },
-                    class: "form-select" %>
+                    { class: "form-select", required: true } %>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -62,13 +62,13 @@
                 <%= form.select :status,
                     Unit.statuses.keys.map { |k| [k.humanize, k] },
                     { prompt: "Select status" },
-                    class: "form-select" %>
+                    { class: "form-select", required: true } %>
               </div>
             </div>
 
             <div class="mb-3">
               <%= form.label :intended_business_purpose, class: "form-label" %>
-              <%= form.text_field :intended_business_purpose, class: "form-control" %>
+              <%= form.text_field :intended_business_purpose, class: "form-control", required: true %>
             </div>
 
             <div class="mb-4">
