@@ -27,11 +27,6 @@ class MaintenanceRequestsController < ApplicationController
       unit_id: params[:maintenance_request][:unit_id],
       status: "submitted"
     )
-    ## CALL INVOICE
-    if @request.save
-      redirect_to maintenance_requests_path, notice: "Maintenance request submitted successfully."
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 

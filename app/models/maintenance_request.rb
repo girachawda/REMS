@@ -47,5 +47,4 @@ class MaintenanceRequest < ApplicationRecord
       errors.add(:base, "Please select emergency or routine")
     end
   end
-
 end
