@@ -1,6 +1,8 @@
 class Payment < ApplicationRecord
   belongs_to :account
+  belongs_to :lease, optional: true
   after_create :apply_to_balance
+  after_create :sync_automatic
 
   validates :amount,
     presence: { message: "Please enter a payment amount." },
@@ -11,5 +13,11 @@ class Payment < ApplicationRecord
     
   def apply_to_balance
     account.update_column(:balance, account.balance.to_f - amount.to_f)
+  end
+
+  def sync_automatic
+    return unless method == "automatic"
+
+    update_column(:paid_at, created_at)
   end
 end

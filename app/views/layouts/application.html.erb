@@ -45,23 +45,29 @@
                 <%= link_to "Appointments", appointments_path, class: nav_link_class(appointments_path) %>
               </li>
 
-              <li class="nav-item">
-                <%= link_to "Leases", lease_agreements_path, class: nav_link_class(lease_agreements_path) %>
-              </li>
-
               <% if current_user.leasing_agent? %>
                 <li class="nav-item">
                   <%= link_to "My Availability", availabilities_path, class: nav_link_class(availabilities_path) %>
                 </li>
               <% end %>
-              
+
               <li class="nav-item">
                 <%= link_to "Rental Applications", lease_applications_path, class: nav_link_class(lease_applications_path) %>
               </li>
 
+              <li class="nav-item">
+                <%= link_to "Leases", lease_agreements_path, class: nav_link_class(lease_agreements_path) %>
+              </li>
+              
+              <% if current_user %>
+                <li class="nav-item">
+                  <%= link_to "Maintenance", maintenance_requests_path, class: "nav-link" %>
+                </li>
+              <% end %>
+
               <% if current_user.tenant? %>
                 <li class="nav-item">
-                  <%= link_to "Invoices", invoices_path, class: nav_link_class(invoices_path) %>
+                  <%= link_to "My Account", account_path(current_user.account), class: nav_link_class(account_path(current_user.account)) %>
                 </li>
               <% end %>
 
@@ -70,19 +76,6 @@
                   <%= link_to "Accounts", accounts_path, class: nav_link_class(accounts_path) %>
                 </li>
               <% end %>
-
-              <% if current_user.tenant? %>
-                <li class="nav-item">
-                  <%= link_to "Payment", payments_path, class: nav_link_class(payments_path) %>
-                </li>
-              <% end %>
-
-              <% if current_user %>
-                <li class="nav-item">
-                  <%= link_to "Maintenance", maintenance_requests_path, class: "nav-link" %>
-                </li>
-              <% end %>
-    
             <% end %>
 
           </ul>
@@ -93,7 +86,11 @@
               
 
               <li class="nav-item">
-                <%= link_to "#{current_user.name} (#{current_user.role.humanize})", accounts_path, class: nav_link_class(accounts_path) %>
+                <% if current_user.tenant? %>
+                  <%= link_to "#{current_user.name} (#{current_user.role.humanize})", account_path(current_user.account), class: nav_link_class(account_path(current_user.account)) %>
+                <% else %>
+                  <%= link_to "#{current_user.name} (#{current_user.role.humanize})", accounts_path, class: nav_link_class(accounts_path) %>
+                <% end %>
               </li>
 
               <li class="nav-item">

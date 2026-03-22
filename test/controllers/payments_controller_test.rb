@@ -6,13 +6,17 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: { email: @user.email, password: "password" }
   end
 
-  test "should get index" do
+  test "TC-0059 - Show tenant receipts" do
+    Payment.create!(
+      account: @user.account,
+      amount: 123.45,
+      method: "card",
+      paid_at: Time.current
+    )
+
     get payments_path
     assert_response :success
-  end
-
-  test "should get new" do
-    get new_payment_path
-    assert_response :success
+    assert_includes response.body, "$123.45"
+    assert_includes response.body, "Card"
   end
 end

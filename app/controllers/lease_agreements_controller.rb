@@ -19,8 +19,6 @@ class LeaseAgreementsController < ApplicationController
       else
         @lease_agreement.update_column(:active, false)
       end
-    else
-      @lease_agreement.update_column(:active, false)
     end
   end
 
@@ -29,7 +27,6 @@ class LeaseAgreementsController < ApplicationController
     lease = Lease.find(params[:id])
     lease.activate
   end
-
 
   def sign_tenant
     @lease = Lease.find(params[:id])

@@ -2,6 +2,7 @@ class Lease < ApplicationRecord
   belongs_to :user
   belongs_to :unit
   has_one :utility
+  has_many :payments
 
   def sign_as_tenant
     update!(

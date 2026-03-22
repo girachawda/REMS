@@ -6,6 +6,8 @@ one:
   is_routine: false
   maintenance_cost: 100.20
   tenant_caused: false
+  status: submitted
+  created_at: 2026-03-01 10:00:00
   unit: one
   user: one
 
@@ -15,5 +17,29 @@ two:
   is_routine: false
   maintenance_cost: 10000000
   tenant_caused: false
+  status: submitted
+  created_at: 2026-03-03 10:00:00
+  unit: two
+  user: two
+
+emergency_older:
+  priority: 1
+  is_emergency: true
+  is_routine: false
+  maintenance_cost: 50.25
+  tenant_caused: false
+  status: submitted
+  created_at: 2026-03-02 10:00:00
+  unit: one
+  user: one
+
+emergency_newer:
+  priority: 1
+  is_emergency: true
+  is_routine: false
+  maintenance_cost: 60.75
+  tenant_caused: false
+  status: submitted
+  created_at: 2026-03-04 10:00:00
   unit: two
   user: two

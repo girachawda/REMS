@@ -7,6 +7,7 @@ one:
   renewal_policy: MyString
   start_date: 2026-03-14
   end_date: 2026-03-14
+  active: true
 
 two:
   user: two
@@ -15,3 +16,67 @@ two:
   renewal_policy: MyString
   start_date: 2026-03-14
   end_date: 2026-03-14
+  active: true
+
+inactive:
+  user: one
+  unit: one
+  duration: 1
+  renewal_policy: MyString
+  start_date: 2026-03-14
+  end_date: 2026-03-14
+  active: false
+
+cycle_monthly_lease:
+  user: cycle_monthly_user
+  unit: one
+  duration: 1
+  renewal_policy: manual
+  start_date: 2026-03-13
+  end_date: 2027-03-13
+  active: true
+
+cycle_quarterly_lease:
+  user: cycle_quarterly_user
+  unit: one
+  duration: 1
+  renewal_policy: manual
+  start_date: 2026-03-13
+  end_date: 2027-03-13
+  active: true
+
+cycle_bi_annually_lease:
+  user: cycle_bi_annually_user
+  unit: one
+  duration: 1
+  renewal_policy: manual
+  start_date: 2026-03-13
+  end_date: 2027-03-13
+  active: true
+
+cycle_annually_lease:
+  user: cycle_annually_user
+  unit: one
+  duration: 1
+  renewal_policy: manual
+  start_date: 2026-03-13
+  end_date: 2027-03-13
+  active: true
+
+lease_tracking:
+  user: tracking_user
+  unit: one
+  duration: 1
+  renewal_policy: manual
+  start_date: 2026-04-14
+  end_date: 2026-05-14
+  active: true
+
+expired_automatic_lease:
+  user: one
+  unit: one
+  duration: 1
+  renewal_policy: automatic
+  start_date: 2020-01-14
+  end_date: 2020-12-31
+  active: true

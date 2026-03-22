@@ -13,3 +13,59 @@ two:
   total_charge: 9.99
   due_date: 2026-03-14
   status: MyString
+
+cycle_monthly_rent_invoice:
+  account: cycle_monthly
+  lease: cycle_monthly_lease
+  total_charge: 2000.0
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+cycle_quarterly_rent_invoice:
+  account: cycle_quarterly
+  lease: cycle_quarterly_lease
+  total_charge: 2000.0
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+cycle_bi_annually_rent_invoice:
+  account: cycle_bi_annually
+  lease: cycle_bi_annually_lease
+  total_charge: 2000.0
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+cycle_annually_rent_invoice:
+  account: cycle_annually
+  lease: cycle_annually_lease
+  total_charge: 2000.0
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+tracking_rent_invoice:
+  account: tracking_account
+  lease: lease_tracking
+  total_charge: 123.45
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+upcoming_unpaid_rent_invoice:
+  account: one
+  lease: one
+  total_charge: 1.0
+  due_date: 2030-01-01
+  charge_type: rent
+  status: unpaid
+
+overdue_unpaid_rent_invoice:
+  account: one
+  lease: one
+  total_charge: 1.0
+  due_date: 2025-01-01
+  charge_type: rent
+  status: unpaid
