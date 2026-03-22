@@ -1,3 +1,4 @@
+# Leasing agents set their available time slots for showing properties
 class AvailabilitiesController < ApplicationController
   before_action :require_login
 
@@ -10,6 +11,7 @@ class AvailabilitiesController < ApplicationController
     @properties = Property.all
   end
 
+  # Agent creates a time slot when they're available to show a property
   def create
     @availability = current_user.availabilities.build(availability_params)
     if @availability.save

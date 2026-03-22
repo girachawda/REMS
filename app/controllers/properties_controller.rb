@@ -1,4 +1,6 @@
+# Browse and search available properties
 class PropertiesController < ApplicationController
+  # List all properties with optional search/filter params
   def index
     @properties = Property.includes(:units).all
 
@@ -37,6 +39,7 @@ class PropertiesController < ApplicationController
     end
   end
 
+  # View details for a specific property
   def show
     @property = Property.find(params[:id])
     @units = @property.units

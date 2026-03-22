@@ -1,6 +1,8 @@
+# Book and manage unit viewing appointments
 class AppointmentsController < ApplicationController
   before_action :require_login
 
+  # Agents see appointments on their schedule, tenants see their booked appointments
   def index
     if current_user.leasing_agent?
       @appointments = Appointment
@@ -24,6 +26,7 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  # Tenant books an appointment to view a unit
   def create
     @appointment = current_user.appointments.build(appointment_params)
     @appointment.status = :pending
@@ -39,10 +42,10 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  # Update appointment status (confirm, cancel, complete)
   def update
     @appointment = Appointment.find(params[:id])
 
-    # Optional: basic authorization check
     unless owns_appointment?(@appointment)
       redirect_to appointments_path, alert: "Not authorized"
       return
@@ -55,6 +58,7 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  # Check if user is allowed to modify this appointment
   def owns_appointment?(appointment)
     if current_user.leasing_agent?
       appointment.availability.user.id == current_user.id
