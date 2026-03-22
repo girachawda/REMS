@@ -2,6 +2,10 @@ class MaintenanceRequest < ApplicationRecord
   belongs_to :unit
   belongs_to :user
 
+  validates :unit_id, presence: true
+  validates :priority, presence: true
+  validate :request_type_selected
+
   def mark_tenant_caused
     update!(tenant_caused: true)
     apply_to_balance
@@ -36,5 +40,12 @@ class MaintenanceRequest < ApplicationRecord
     due_date: Date.current.end_of_month >> 1,
     status: "unpaid"
   )
-end
+  end
+
+  def request_type_selected
+    unless is_emergency || is_routine
+      errors.add(:base, "Please select emergency or routine")
+    end
+  end
+
 end

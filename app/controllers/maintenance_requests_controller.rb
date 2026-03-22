@@ -17,9 +17,10 @@ class MaintenanceRequestsController < ApplicationController
 
   # create request
   def create
-    maintenance_request = MaintenanceRequest.new(
+    @request = MaintenanceRequest.new(
       priority: params[:maintenance_request][:priority],
       is_emergency: params[:maintenance_request][:is_emergency],
+      is_routine: params[:maintenance_request][:is_routine],
       maintenance_cost: params[:maintenance_request][:cost_to_tenant],
       tenant_caused: params[:maintenance_request][:tenant_caused],
       user_id: current_user.id,
@@ -27,7 +28,11 @@ class MaintenanceRequestsController < ApplicationController
       status: "submitted"
     )
     ## CALL INVOICE
-    maintenance_request.save!
+    if @request.save
+      redirect_to maintenance_requests_path, notice: "Maintenance request submitted successfully."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def update_cost
