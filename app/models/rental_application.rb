@@ -1,7 +1,9 @@
+# Application submitted by prospective tenants wanting to rent a unit
 class RentalApplication < ApplicationRecord
   belongs_to :user
   belongs_to :unit
 
+  # Quick way to find all pending applications
   scope :pending, -> { where(status: "pending") }
 
   def approve

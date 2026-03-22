@@ -1,5 +1,6 @@
+# Handle rental applications (submit, approve, reject)
 class LeaseApplicationsController < ApplicationController
-  # this is to display all pending lease agreements
+  # Agents see pending applications, tenants see their own
   def index
     if current_user.leasing_agent?
       @applications = RentalApplication.pending
@@ -12,13 +13,12 @@ class LeaseApplicationsController < ApplicationController
     @application = RentalApplication.find(params[:id])
   end
 
-  # this is to display the form for application
   def new
     @unit = Unit.find(params[:unit_id])
     @application = RentalApplication.new(unit: @unit)
   end
 
-  # this creates the application
+  # Tenant submits an application for a unit
   def create
     @application = RentalApplication.new(
       unit_id: params[:rental_application][:unit_id],
@@ -29,6 +29,7 @@ class LeaseApplicationsController < ApplicationController
       status: "pending"
     )
 
+    # Calculate end date based on duration
     if @application.start_date.present? && @application.duration.present?
       @application.end_date = @application.start_date + @application.duration.months
     end
@@ -41,7 +42,7 @@ class LeaseApplicationsController < ApplicationController
     end
   end
 
-  # self explanatory lol
+  # Approve application and create the lease
   def approve
     @application = RentalApplication.find(params[:id])
     @application.update!(status: "approved")
@@ -61,7 +62,7 @@ class LeaseApplicationsController < ApplicationController
       notice: "Application approved and lease created."
   end
 
-  # also self explanatory
+  # Reject application with a reason
   def reject
     @application = RentalApplication.find(params[:id])
 

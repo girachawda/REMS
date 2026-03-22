@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1 class="mb-0">Property Portfolio</h1>
 
+  <%# Only staff can add new units %>
   <% if current_user&.leasing_agent? || current_user&.administrative_staff? %>
     <%= link_to "Add Unit",
         new_unit_path,
@@ -8,6 +9,7 @@
   <% end %>
 </div>
 
+<%# Search and filter form - lets users narrow down properties by various criteria %>
 <div class="card mb-4 shadow-sm">
   <div class="card-body">
 
@@ -88,6 +90,7 @@
 
 <div class="row">
 
+  <%# Display each unit as a card - iterating through all properties and their units %>
   <% @properties.each do |property| %>
 
     <% property.units.each do |unit| %>
@@ -119,10 +122,11 @@
 
           </div>
 
+          <%# Staff can edit units, tenants can only view/schedule available ones %>
           <div class="card-footer bg-white">
 
             <% if current_user&.leasing_agent? || current_user&.administrative_staff? %>
-              
+
               <%= link_to "Edit Unit",
                   edit_unit_path(unit),
                   class: "btn btn-sm btn-outline-primary" %>

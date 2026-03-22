@@ -1,5 +1,6 @@
+# Manage maintenance requests from submission to completion
 class MaintenanceRequestsController < ApplicationController
-  # list queue - this will auto prioritize
+  # Show requests sorted by priority (emergencies first, then by date)
   def index
     if current_user.tenant?
       @maintenance_requests = current_user.maintenance_requests
@@ -7,15 +8,15 @@ class MaintenanceRequestsController < ApplicationController
       @maintenance_requests = MaintenanceRequest.all
     end
 
+    # Sort: open requests first, then emergencies, then oldest first
     @maintenance_requests = @maintenance_requests.order(Arel.sql("CASE WHEN status = 'closed' THEN 1 ELSE 0 END"), is_emergency: :desc, created_at: :asc)
   end
 
-  # display form for new request
   def new
     @request = MaintenanceRequest.new
   end
 
-  # create request
+  # Tenant submits a new maintenance request
   def create
     maintenance_request = MaintenanceRequest.new(
       priority: params[:maintenance_request][:priority],
@@ -26,10 +27,10 @@ class MaintenanceRequestsController < ApplicationController
       unit_id: params[:maintenance_request][:unit_id],
       status: "submitted"
     )
-    ## CALL INVOICE
     maintenance_request.save!
   end
 
+  # Staff updates the cost and whether tenant caused the damage
   def update_cost
     maintenance_request = MaintenanceRequest.find(params[:id])
 
@@ -45,7 +46,7 @@ class MaintenanceRequestsController < ApplicationController
     end
   end
 
-  # this is if a staff needs to alter the status of a request to be tenant caused
+  # Mark as tenant-caused which will bill them for repairs
   def mark_tenant_caused
     maintenance_request = MaintenanceRequest.find(params[:id])
     maintenance_request.mark_tenant_caused
@@ -53,7 +54,7 @@ class MaintenanceRequestsController < ApplicationController
     redirect_to maintenance_requests_path, notice: "Marked as tenant caused."
   end
 
-  # ^^^ :)
+  # Close out a completed request
   def close
     maintenance_request = MaintenanceRequest.find(params[:id])
     maintenance_request.close

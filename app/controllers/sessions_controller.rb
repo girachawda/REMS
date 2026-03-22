@@ -1,7 +1,10 @@
+# Handles user login and logout
 class SessionsController < ApplicationController
+  # Show login page
   def new
   end
 
+  # Process login attempt
   def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
@@ -13,6 +16,7 @@ class SessionsController < ApplicationController
     end
   end
 
+  # Log the user out by clearing their session
   def destroy
     session[:user_id] = nil
     redirect_to login_path, notice: "Logged out successfully"

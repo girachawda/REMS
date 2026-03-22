@@ -42,6 +42,7 @@
       </div>
     </div>
 
+    <%# Balance shows red if they owe money, green if paid up %>
     <div class="row mb-0">
       <div class="col-sm-4 text-muted">Current Balance</div>
       <div class="col-sm-8 fw-semibold <%= @account.balance.to_f > 0 ? 'text-danger' : 'text-success' %>">
@@ -67,6 +68,7 @@
         </p>
       </div>
 
+      <%# Dropdown to filter invoices by month - auto-submits when changed %>
       <% if @available_months.present? %>
         <%= form_with url: account_path(@account), method: :get, local: true do %>
           <div class="d-flex align-items-center gap-2">
