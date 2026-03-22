@@ -18,16 +18,17 @@ class MaintenanceRequestsController < ApplicationController
 
   # Tenant submits a new maintenance request
   def create
-    maintenance_request = MaintenanceRequest.new(
+    @request = MaintenanceRequest.new(
       priority: params[:maintenance_request][:priority],
       is_emergency: params[:maintenance_request][:is_emergency],
+      is_routine: params[:maintenance_request][:is_routine],
       maintenance_cost: params[:maintenance_request][:cost_to_tenant],
       tenant_caused: params[:maintenance_request][:tenant_caused],
       user_id: current_user.id,
       unit_id: params[:maintenance_request][:unit_id],
       status: "submitted"
     )
-    maintenance_request.save!
+    @request.save!
   end
 
   # Staff updates the cost and whether tenant caused the damage

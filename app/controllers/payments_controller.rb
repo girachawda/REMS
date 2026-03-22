@@ -12,16 +12,17 @@ class PaymentsController < ApplicationController
 
   # Process a manual payment (automatic payments happen in accounts#show)
   def create
-    @payment = current_user.account.payments.build(
-      amount: params[:amount],
-      method: params[:method],
-      paid_at: Time.current
-    )
+    @payment = current_user.account.payments.build(payment_params)
+    @payment.paid_at = Time.current
 
     if @payment.save
       redirect_to account_path(current_user.account), notice: "Payment successful"
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def payment_params
+    params.require(:payment).permit(:amount, :method)
   end
 end
