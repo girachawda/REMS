@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1 class="mb-0">Property Portfolio</h1>
 
-  <% if current_user&.leasing_agent? %>
+  <% if current_user&.leasing_agent? || current_user&.administrative_staff? %>
     <%= link_to "Add Unit",
         new_unit_path,
         class: "btn btn-primary" %>
@@ -121,7 +121,7 @@
 
           <div class="card-footer bg-white">
 
-            <% if current_user&.leasing_agent? %>
+            <% if current_user&.leasing_agent? || current_user&.administrative_staff? %>
               
               <%= link_to "Edit Unit",
                   edit_unit_path(unit),

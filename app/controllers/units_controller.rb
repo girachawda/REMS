@@ -13,6 +13,7 @@ class UnitsController < ApplicationController
   def edit
     @unit = Unit.find(params[:id])
     @properties = Property.all
+    @property = @unit.property
   end
 
   # this creates the application
@@ -38,7 +39,7 @@ class UnitsController < ApplicationController
     Rails.logger.info "UNIT BEFORE SAVE: #{@unit.inspect}"
 
     if @unit.save!
-      redirect_to property_unit_path(@property, @unit),
+      redirect_to edit_unit_path(@unit),
         notice: "Unit created successfully."
     else
       Rails.logger.info "SAVE FAILED: #{@unit.errors.full_messages}"
@@ -60,11 +61,21 @@ class UnitsController < ApplicationController
       picture: params[:unit][:picture]
     )
 
-      redirect_to property_unit_path(@property, @unit), notice: "Unit updated"
+      redirect_to properties_path, notice: "Unit updated"
     else
       Rails.logger.info "SAVE FAILED: #{@unit.errors.full_messages}"
       @properties = Property.all
       render :new, status: :unprocessable_entity
     end
   end
+
+  def destroy
+    @unit = Unit.find(params[:id])
+    @property = @unit.property
+
+    @unit.destroy
+
+    redirect_to properties_path, notice: "Unit deleted successfully."
+  end
+
 end
