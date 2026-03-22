@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   # Portfolio/Properties
   resources :properties, only: [ :index, :show ] do
-    resources :units, only: [ :show, :new, :create, :update ]
+    resources :units, only: [ :show, :new, :create, :update, :destroy ]
   end
 
   resources :units
