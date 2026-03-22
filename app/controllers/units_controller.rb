@@ -71,8 +71,13 @@ class UnitsController < ApplicationController
     @unit = Unit.find(params[:id])
     @property = @unit.property
 
-    @unit.destroy
+    begin
+      @unit.destroy
+      redirect_to properties_path, notice: "Unit deleted successfully."
 
-    redirect_to properties_path, notice: "Unit deleted successfully."
+    rescue ActiveRecord::InvalidForeignKey
+      redirect_to properties_path,
+        alert: "Cannot delete unit because it has associated records (e.g., leases or applications)."
+    end
   end
 end
