@@ -27,7 +27,6 @@ class MaintenanceRequestsController < ApplicationController
       unit_id: params[:maintenance_request][:unit_id],
       status: "submitted"
     )
-    end
   end
 
   def update_cost
