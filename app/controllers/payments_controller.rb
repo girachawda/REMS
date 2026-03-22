@@ -1,3 +1,4 @@
+# Tenants make manual payments here
 class PaymentsController < ApplicationController
   before_action :require_login
 
@@ -9,6 +10,7 @@ class PaymentsController < ApplicationController
     @payment = current_user.account.payments.build
   end
 
+  # Process a manual payment (automatic payments happen in accounts#show)
   def create
     @payment = current_user.account.payments.build(payment_params)
     @payment.paid_at = Time.current

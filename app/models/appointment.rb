@@ -1,3 +1,4 @@
+# Scheduled viewing appointments for prospective tenants to see units
 class Appointment < ApplicationRecord
   belongs_to :user
   belongs_to :unit
@@ -11,6 +12,7 @@ class Appointment < ApplicationRecord
 
   private
 
+  # Make sure we don't book two people at the same time
   def no_double_booking
     return if availability.blank? || scheduled_at.blank?
 

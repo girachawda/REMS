@@ -1,5 +1,6 @@
+# View and sign lease agreements
 class LeaseAgreementsController < ApplicationController
-  # all leases (for staff members/admin)
+  # Staff see all leases, tenants see only their own
   def index
     if current_user.leasing_agent?
       @lease_agreements = Lease.all
@@ -8,11 +9,11 @@ class LeaseAgreementsController < ApplicationController
     end
   end
 
-  # specific lease
+  # View lease details and check for auto-renewal
   def show
     @lease_agreement = Lease.find(params[:id])
 
-    # autorenewal logic
+    # Check if lease expired and handle auto-renewal
     if Date.current > @lease_agreement.end_date
       if @lease_agreement.renewal_policy == "automatic"
         @lease_agreement.update_column(:end_date, @lease_agreement.end_date >> 12)
@@ -22,12 +23,13 @@ class LeaseAgreementsController < ApplicationController
     end
   end
 
-  # activate
+  # Manually activate a lease
   def update
     lease = Lease.find(params[:id])
     lease.activate
   end
 
+  # Tenant signs their part of the lease
   def sign_tenant
     @lease = Lease.find(params[:id])
     @lease.sign_as_tenant
@@ -36,6 +38,7 @@ class LeaseAgreementsController < ApplicationController
       notice: "You signed the lease."
   end
 
+  # Agent signs their part of the lease
   def sign_agent
     @lease = Lease.find(params[:id])
     @lease.sign_as_agent

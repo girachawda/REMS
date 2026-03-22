@@ -38,6 +38,7 @@
               <td><%= request.unit.unit_number %></td>
               <td><%= request.user.name %></td>
 
+              <%# Emergency requests show red badge and get prioritized %>
               <td>
                 <% if request.is_emergency %>
                   <span class="badge bg-danger">Emergency</span>
@@ -52,6 +53,7 @@
                 </span>
               </td>
 
+              <%# If tenant caused it, they get billed for repairs %>
               <td>
                 <span class="badge <%= request.tenant_caused ? 'bg-warning text-dark' : 'bg-light text-dark border' %>">
                   <%= request.tenant_caused ? "Yes" : "No" %>
@@ -70,6 +72,7 @@
                 <%= request.created_at.strftime("%Y-%m-%d %I:%M %p") %>
               </td>
 
+              <%# Staff can update cost/tenant-caused status and close requests %>
               <% unless current_user.tenant? %>
                 <td>
                   <% if request.status == "closed" %>

@@ -1,3 +1,4 @@
+<%# Different views for agents vs tenants - agents see all pending apps, tenants see their own %>
 <% if current_user.leasing_agent? %>
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
@@ -60,6 +61,7 @@
                         lease_application_path(app),
                         class: "btn btn-sm btn-outline-primary" %>
 
+                    <%# Only show approve/reject buttons for pending applications %>
                     <% if app.status == "pending" %>
                       <%= button_to "Approve",
                           approve_lease_application_path(app),

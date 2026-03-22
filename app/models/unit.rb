@@ -1,4 +1,4 @@
-# todo, missing intended business purpose
+# Individual rental units within a property (like apartment 2B or office suite 301)
 class Unit < ApplicationRecord
   belongs_to :property
   has_many :appointments, dependent: :destroy
