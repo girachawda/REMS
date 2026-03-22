@@ -5,9 +5,9 @@ class InvoicesController < ApplicationController
   # list tenant invoices
   def index
     if current_user.tenant?
-      @invoices = current_user.account.invoices
+      @invoices = current_user.account.invoices.order(created_at: :desc)
     else
-      @invoices = Invoice.all
+      @invoices = Invoice.all.order(created_at: :desc)
     end
   end
 
@@ -30,7 +30,7 @@ class InvoicesController < ApplicationController
         status: "unpaid"
       )
     invoice.save!
-    redirect_to invoice_path(invoice), notice: "New invoice for you bro"
+    redirect_to invoice_path(invoice), notice: "New invoice generated"
   end
 
   def record_payment
@@ -38,9 +38,9 @@ class InvoicesController < ApplicationController
 
     if current_user.account.balance <= 0
       invoice.update(status: "paid")
-      redirect_to account_path, notice: "Outstanding invoices are paid"
+      redirect_to account_path(current_user.account), notice: "Outstanding invoices are paid"
     else
-      redirect_to account_path, alert: "Outstanding balance remains on account"
+      redirect_to account_path(current_user.account), alert: "Outstanding balance remains on account"
     end
   end
 
@@ -49,10 +49,10 @@ class InvoicesController < ApplicationController
 
     if current_user.account.balance <= 0
       invoice.update(status: "paid")
-      redirect_to account_path, notice: "Outstanding invoices are paid"
+      redirect_to account_path(current_user.account), notice: "Outstanding invoices are paid"
     else
       invoice.update(status: "overdue")
-      redirect_to account_path, alert: "Your payments are overdue. Pay up."
+      redirect_to account_path(current_user.account), alert: "Your payments are overdue. Pay up."
     end
   end
 end

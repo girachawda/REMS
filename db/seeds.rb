@@ -115,6 +115,10 @@ Unit.find_or_create_by!(property: prop3, unit_number: "302") do |u|
   u.picture = "https://images.unsplash.com/photo-1687114835860-4c22e258781f?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHw1fHxzdG9yZWZyb250fGVufDB8fHx8MTc3Mzg2NzA4Mnww&ixlib=rb-4.1.0&w=600&h=500&fit=max&q=80"
 end
 
+unit_101 = Unit.find_by!(property: prop1, unit_number: "101")
+unit_102 = Unit.find_by!(property: prop1, unit_number: "102")
+unit_103 = Unit.find_by!(property: prop1, unit_number: "103")
+
 # Create some agent availability
 start_date = Date.today
 7.times do |i|
@@ -134,149 +138,152 @@ start_date = Date.today
   )
 end
 
-Account.find_or_create_by!(
-  balance: 1350.37,
-  payment_cycle: "monthly",
-  bank_transfer_number: 123456789,
-  discount_percent: 3,
-  user_id: 1,
-)
+Account.find_or_create_by!(user: tenant1) do |a|
+  a.balance = 0.0
+  a.payment_cycle = "monthly"
+  a.bank_transfer_number = 123_456_789
+  a.discount_percent = 3
+end
 
-Account.find_or_create_by!(
-  balance: 1350.37,
-  payment_cycle: "monthly",
-  bank_transfer_number: 123456789,
-  discount_percent: 3,
-  user_id: 2,
-)
+Account.find_or_create_by!(user: tenant2) do |a|
+  a.balance = 1350.37
+  a.payment_cycle = "monthly"
+  a.bank_transfer_number = 123_456_789
+  a.discount_percent = 3
+end
 
-Account.find_or_create_by!(
-  balance: 0,
-  payment_cycle: "monthly",
-  bank_transfer_number: 123456789,
-  discount_percent: 0,
-  user_id: 3,
-)
+Account.find_or_create_by!(user: tenant3) do |a|
+  a.balance = 0
+  a.payment_cycle = "monthly"
+  a.bank_transfer_number = 123_456_789
+  a.discount_percent = 0
+end
 
 RentalApplication.find_or_create_by!(
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
   duration: 12,
   status: "approved",
-  user_id: 1,
-  unit_id: 1
+  renewal_policy: "automatic",
+  user_id: tenant1.id,
+  unit_id: unit_101.id
 )
 
 RentalApplication.find_or_create_by!(
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
   duration: 12,
   status: "approved",
-  user_id: 1,
-  unit_id: 2
+  renewal_policy: "automatic",
+  user_id: tenant1.id,
+  unit_id: unit_102.id
 )
 
 RentalApplication.find_or_create_by!(
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
   duration: 12,
   status: "approved",
-  user_id: 2,
-  unit_id: 3
+  renewal_policy: "automatic",
+  user_id: tenant2.id,
+  unit_id: unit_103.id
 )
 
-Lease.find_or_create_by!(
+lease_homer_101 = Lease.find_or_create_by!(
   duration: 12,
   renewal_policy: "automatic",
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
-  user_id: 1,
-  unit_id: 1,
-  active: true
-  )
+  user_id: tenant1.id,
+  unit_id: unit_101.id,
+  active: true,
+  tenant_signed: true,
+  agent_signed: true
+)
 
-  Lease.find_or_create_by!(
+lease_homer_102 = Lease.find_or_create_by!(
   duration: 12,
   renewal_policy: "automatic",
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
-  user_id: 1,
-  unit_id: 2,
-  active: true
-  )
+  user_id: tenant1.id,
+  unit_id: unit_102.id,
+  active: false
+)
 
-  Lease.find_or_create_by!(
+lease_krusty_103 = Lease.find_or_create_by!(
   duration: 12,
   renewal_policy: "automatic",
-  start_date: Date.new(2026, 01, 01),
+  start_date: Date.new(2026, 1, 1),
   end_date: Date.new(2026, 12, 31),
-  user_id: 2,
-  unit_id: 3,
+  user_id: tenant2.id,
+  unit_id: unit_103.id,
   active: true
-  )
+)
 
 Utility.find_or_create_by!(
   electricity_charges: 35,
   water_charges: 35,
   waste_management_charges: 56,
-  lease_id: 1,
+  lease_id: lease_homer_101.id
 )
 
 Utility.find_or_create_by!(
   electricity_charges: 102,
   water_charges: 53,
   waste_management_charges: 23,
-  lease_id: 2,
+  lease_id: lease_homer_102.id
 )
 
 Utility.find_or_create_by!(
   electricity_charges: 89,
   water_charges: 67,
   waste_management_charges: 45,
-  lease_id: 3,
+  lease_id: lease_krusty_103.id
 )
-  MaintenanceRequest.find_or_create_by!(
-    priority: 1,
-    is_emergency: false,
-    is_routine: true,
-    tenant_caused: false,
-    unit_id: 1,
-    user_id: 1,
-    status: "submitted",
-    maintenance_cost: 134.21
-  )
 
-    MaintenanceRequest.find_or_create_by!(
-    priority: 1,
-    is_emergency: false,
-    is_routine: true,
-    tenant_caused: false,
-    unit_id: 1,
-    user_id: 1,
-    status: "closed",
-    maintenance_cost: 134.21
-  )
+MaintenanceRequest.find_or_create_by!(
+  priority: 1,
+  is_emergency: false,
+  is_routine: true,
+  tenant_caused: false,
+  unit_id: unit_101.id,
+  user_id: tenant1.id,
+  status: "submitted",
+  maintenance_cost: 134.21
+)
 
-    MaintenanceRequest.find_or_create_by!(
-    priority: 1,
-    is_emergency: true,
-    is_routine: false,
-    tenant_caused: true,
-    unit_id: 2,
-    user_id: 1,
-    status: "submitted",
-    maintenance_cost: 231.21
-  )
+MaintenanceRequest.find_or_create_by!(
+  priority: 1,
+  is_emergency: false,
+  is_routine: true,
+  tenant_caused: false,
+  unit_id: unit_101.id,
+  user_id: tenant1.id,
+  status: "closed",
+  maintenance_cost: 134.21
+)
 
-  MaintenanceRequest.find_or_create_by!(
-    priority: 4,
-    is_emergency: true,
-    is_routine: true,
-    tenant_caused: false,
-    unit_id: 3,
-    user_id: 2,
-    status: "submitted",
-    maintenance_cost: 523.21
-  )
+MaintenanceRequest.find_or_create_by!(
+  priority: 1,
+  is_emergency: true,
+  is_routine: false,
+  tenant_caused: true,
+  unit_id: unit_102.id,
+  user_id: tenant1.id,
+  status: "submitted",
+  maintenance_cost: 231.21
+)
+
+MaintenanceRequest.find_or_create_by!(
+  priority: 4,
+  is_emergency: true,
+  is_routine: true,
+  tenant_caused: false,
+  unit_id: unit_103.id,
+  user_id: tenant2.id,
+  status: "submitted",
+  maintenance_cost: 523.21
+)
 
 puts "Seeded database."

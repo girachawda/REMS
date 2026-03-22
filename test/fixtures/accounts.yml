@@ -2,14 +2,56 @@
 
 one:
   balance: 9.99
-  payment_cycle: 1
+  payment_cycle: monthly
   bank_transfer_number: 1
   discount_percent: 9.99
   user: one
 
 two:
   balance: 9.99
-  payment_cycle: 1
+  payment_cycle: monthly
   bank_transfer_number: 1
   discount_percent: 9.99
   user: two
+
+cycle_monthly:
+  balance: 0.0
+  payment_cycle: monthly
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: cycle_monthly_user
+
+cycle_quarterly:
+  balance: 0.0
+  payment_cycle: quarterly
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: cycle_quarterly_user
+
+cycle_bi_annually:
+  balance: 0.0
+  payment_cycle: bi-annually
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: cycle_bi_annually_user
+
+cycle_annually:
+  balance: 0.0
+  payment_cycle: annually
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: cycle_annually_user
+
+tracking_account:
+  balance: 0.0
+  payment_cycle: monthly
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: tracking_user
+
+overdue_alert_account:
+  balance: 5000.0
+  payment_cycle: monthly
+  bank_transfer_number: 1
+  discount_percent: 0.0
+  user: overdue_alert_user

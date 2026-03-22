@@ -15,3 +15,20 @@ two:
   end_date: 2026-03-14
   duration: 1
   status: MyString
+
+three:
+  user: tracking_user
+  unit: two
+  start_date: 2026-08-01
+  end_date: 2026-09-01
+  duration: 1
+  status: pending
+  renewal_policy: manual
+
+approved_duration_3:
+  user: one
+  unit: one
+  start_date: 2026-03-14
+  end_date: 2026-06-14
+  duration: 3
+  status: approved

@@ -11,3 +11,57 @@ two:
   email: agent@example.com
   password_digest: <%= BCrypt::Password.create('password') %>
   role: 1
+
+admin:
+  name: Admin User
+  email: admin@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 2
+
+cycle_monthly_user:
+  name: Cycle Monthly User
+  email: cycle_monthly@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0
+
+cycle_quarterly_user:
+  name: Cycle Quarterly User
+  email: cycle_quarterly@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0
+
+cycle_bi_annually_user:
+  name: Cycle Bi Annually User
+  email: cycle_bi_annually@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0
+
+cycle_annually_user:
+  name: Cycle Annually User
+  email: cycle_annually@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0
+
+tracking_user:
+  name: Tracking User
+  email: tracking@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0
+
+agent_three:
+  name: Agent Three
+  email: agent3@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 1
+
+agent_four:
+  name: Agent Four
+  email: agent4@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 1
+
+overdue_alert_user:
+  name: Overdue Alert User
+  email: overdue_alert@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  role: 0

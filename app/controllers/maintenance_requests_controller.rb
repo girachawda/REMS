@@ -44,7 +44,7 @@ class MaintenanceRequestsController < ApplicationController
       redirect_to maintenance_requests_path, alert: maintenance_request.errors.full_messages.join(", ")
     end
   end
-  
+
   # this is if a staff needs to alter the status of a request to be tenant caused
   def mark_tenant_caused
     maintenance_request = MaintenanceRequest.find(params[:id])

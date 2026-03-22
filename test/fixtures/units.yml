@@ -8,6 +8,7 @@ one:
   classification: 0
   status: 0
   intended_business_purpose: "dining"
+  picture: "/icon.png"
 
 two:
   property: two
@@ -15,5 +16,16 @@ two:
   size: 1500.0
   rental_rate: 2500.0
   classification: 1
+  status: 1
+  intended_business_purpose: "dining"
+  picture: "/icon.png"
+
+overdue_alert_unit:
+  property: one
+  unit_number: "209"
+  size: 800.0
+  rental_rate: 1000.0
+  classification: 0
   status: 0
   intended_business_purpose: "dining"
+  picture: "/icon.png"

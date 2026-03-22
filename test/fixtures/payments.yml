@@ -11,3 +11,9 @@ two:
   amount: 9.99
   paid_at: 2026-03-14 14:00:29
   method: MyString
+
+tracking_card_payment:
+  account: tracking_account
+  amount: 123.45
+  paid_at: 2026-03-14 14:00:29
+  method: card

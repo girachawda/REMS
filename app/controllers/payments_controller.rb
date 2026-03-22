@@ -11,8 +11,8 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = current_user.account.payments.build(
-      amount: params[:payment][:amount],
-      method: params[:payment][:method],
+      amount: params[:amount],
+      method: params[:method],
       paid_at: Time.current
     )
 
@@ -21,6 +21,5 @@ class PaymentsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-
   end
 end

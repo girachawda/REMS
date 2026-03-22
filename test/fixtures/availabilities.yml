@@ -3,11 +3,17 @@
 one:
   user: two
   property: one
-  start_time: <%= 1.day.from_now %>
-  end_time: <%= 1.day.from_now + 2.hours %>
+  start_time: 2030-01-01 10:00:00
+  end_time: 2030-01-01 12:00:00
 
 two:
   user: two
   property: two
-  start_time: <%= 2.days.from_now %>
-  end_time: <%= 2.days.from_now + 3.hours %>
+  start_time: 2030-01-02 10:00:00
+  end_time: 2030-01-02 13:00:00
+
+admin_one:
+  user: two
+  property: one
+  start_time: 2030-01-01 10:00:00
+  end_time: 2030-01-01 12:00:00

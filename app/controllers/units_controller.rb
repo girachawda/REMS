@@ -18,12 +18,7 @@ class UnitsController < ApplicationController
 
   # this creates the application
   def create
-    Rails.logger.info "PARAMS: #{params.inspect}"
-    @property = if params[:property_id].present?
-                Property.find(params[:property_id])
-              else
-                Property.find(params[:unit][:property_id])
-              end
+    @property = Property.find(params[:unit][:property_id])
 
     @unit = Unit.new(
       property_id: @property.id,
@@ -35,8 +30,6 @@ class UnitsController < ApplicationController
       intended_business_purpose: params[:unit][:intended_business_purpose],
       picture: params[:unit][:picture]
     )
-
-    Rails.logger.info "UNIT BEFORE SAVE: #{@unit.inspect}"
 
     if @unit.save!
       redirect_to edit_unit_path(@unit),
@@ -51,6 +44,7 @@ class UnitsController < ApplicationController
   def update
     @unit = Unit.find(params[:id])
     @property = @unit.property
+
     if @unit.update!(
       unit_number: params[:unit][:unit_number],
       size: params[:unit][:size],
@@ -77,5 +71,4 @@ class UnitsController < ApplicationController
 
     redirect_to properties_path, notice: "Unit deleted successfully."
   end
-
 end
