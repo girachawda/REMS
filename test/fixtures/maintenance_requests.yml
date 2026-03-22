@@ -3,7 +3,7 @@
 one:
   priority: 1
   is_emergency: false
-  is_routine: false
+  is_routine: true
   maintenance_cost: 100.20
   tenant_caused: false
   status: submitted
@@ -14,7 +14,7 @@ one:
 two:
   priority: 1
   is_emergency: false
-  is_routine: false
+  is_routine: true
   maintenance_cost: 10000000
   tenant_caused: false
   status: submitted

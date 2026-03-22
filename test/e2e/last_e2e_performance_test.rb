@@ -188,7 +188,7 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
 
     invoice = Invoice.order(:id).last
     assert_difference("Payment.count", +1) do
-      post payments_path, params: { amount: invoice.total_charge, method: "card" }
+      post payments_path, params: { payment: { amount: invoice.total_charge, method: "card" } }
     end
 
     get payments_path
@@ -289,7 +289,7 @@ class LastE2ePerformanceTest < ActionDispatch::IntegrationTest
     amount = invoice.total_charge.to_f.nonzero?
 
     elapsed_seconds do
-      post payments_path, params: { amount: amount, method: "card" }
+      post payments_path, params: { payment: { amount: amount, method: "card" } }
     end
 
     assert_operator elapsed, :<, 15.0

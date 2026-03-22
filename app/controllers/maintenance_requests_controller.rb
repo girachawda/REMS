@@ -28,6 +28,7 @@ class MaintenanceRequestsController < ApplicationController
       unit_id: params[:maintenance_request][:unit_id],
       status: "submitted"
     )
+    @request.save!
   end
 
   # Staff updates the cost and whether tenant caused the damage

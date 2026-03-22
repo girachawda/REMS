@@ -38,6 +38,7 @@ class MaintenanceRequestsControllerTest < ActionDispatch::IntegrationTest
         maintenance_request: {
           priority: template.priority,
           is_emergency: template.is_emergency,
+          is_routine: template.is_routine,
           unit_id: template.unit.id
         }
       }
