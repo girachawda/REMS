@@ -15,38 +15,156 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: units(:one).classification,
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_response :redirect
   end
 
   test "TC-002 - Add New Location - Blank Inputs" do
-    post property_units_path(properties(:one)), params: {
-      unit: {
-        property_id: units(:one).property_id,
-        unit_number: units(:one).unit_number,
-        rental_rate: units(:one).rental_rate,
-        classification: units(:one).classification,
-        status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
       }
-    }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status
+        }
+      }
+    end
     assert_response :unprocessable_entity
   end
 
   test "TC-003 - Add New Location - Incorrect Inputs" do
-    post property_units_path(properties(:one)), params: {
-      unit: {
-        property_id: units(:one).property_id,
-        unit_number: units(:one).unit_number,
-        size: -2,
-        rental_rate: units(:one).rental_rate,
-        classification: units(:one).classification,
-        status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: -2,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
       }
-    }
+    end
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          rental_rate: -1,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: "",
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: units(:one).intended_business_purpose
+        }
+      }
+    end
+    assert_response :unprocessable_entity
+
+    assert_no_difference("Unit.count") do
+      post property_units_path(properties(:one)), params: {
+        unit: {
+          property_id: units(:one).property_id,
+          unit_number: units(:one).unit_number,
+          size: units(:one).size,
+          rental_rate: units(:one).rental_rate,
+          classification: units(:one).classification,
+          status: units(:one).status,
+          intended_business_purpose: ""
+        }
+      }
+    end
     assert_response :unprocessable_entity
   end
 
@@ -59,7 +177,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: units(:one).classification,
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_redirected_to properties_path
@@ -74,7 +192,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: "tier_1",
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_response :redirect
@@ -87,7 +205,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: "tier_2",
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_response :redirect
@@ -100,7 +218,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: "tier_3",
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_response :redirect
@@ -113,7 +231,7 @@ class UnitsControllerTest < ActionDispatch::IntegrationTest
         rental_rate: units(:one).rental_rate,
         classification: "tier_4",
         status: units(:one).status,
-        intended_business_purpose: units(:one).intended_business_purpose,
+        intended_business_purpose: units(:one).intended_business_purpose
       }
     }
     assert_response :redirect
