@@ -11,7 +11,7 @@ gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Force older version of Psych
-gem "psych", "4.0.0"
+gem "psych", "5.3.1"
 # Add Bootstrap and SCSS
 gem "bootstrap", "~> 5.3"
 gem "sassc-rails"
